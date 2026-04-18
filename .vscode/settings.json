@@ -1,0 +1,60 @@
+{
+  // JS/TS import updates on file move
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  // VSCode Editor defaults
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit",
+    "source.fixAll.stylelint": "explicit"
+  },
+  "files.autoSave": "onFocusChange",
+  "search.exclude": {
+    "**/.next": true,
+    "**/dist": true,
+    "**/out": true,
+    "**/coverage": true
+  },
+  "files.watcherExclude": {
+    "**/.next/**": true,
+    "**/dist/**": true,
+    "**/out/**": true,
+    "**/coverage/**": true
+  },
+  // Extension: Git
+  "git.rebaseWhenSync": true,
+  "git.autofetch": true,
+  "git.enableSmartCommit": true,
+  // Extension: Prettier
+  "prettier.requireConfig": true,
+  // Extension: ESLint
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact"
+  ],
+  "eslint.format.enable": false,
+  // Stylelint
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "stylelint.enable": true,
+  "stylelint.validate": [
+    "css",
+    "scss",
+    "typescript",
+    "typescriptreact"
+  ],
+  "markdown.extension.toc.updateOnSave": false,
+  "files.insertFinalNewline": true,
+  "editor.linkedEditing": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "cSpell.words": [
+    "customizer",
+    "iconify",
+    "tanstack"
+  ]
+}

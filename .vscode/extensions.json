@@ -1,0 +1,29 @@
+{
+  "recommendations": [
+    "formulahendry.auto-close-tag",
+    "steoates.autoimport",
+    "mgmcdermott.vscode-language-babel",
+    "aaron-bond.better-comments",
+    "MohammadBaqer.better-folding",
+    "pustelto.bracketeer",
+    "streetsidesoftware.code-spell-checker",
+    "naumovs.color-highlight",
+    "mikestead.dotenv",
+    "EditorConfig.EditorConfig",
+    "usernamehw.errorlens",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "antfu.iconify",
+    "xabikos.JavaScriptSnippets",
+    "christian-kohler.npm-intellisense",
+    "christian-kohler.path-intellisense",
+    "formulahendry.auto-rename-tag",
+    "esbenp.prettier-vscode",
+    "yoavbls.pretty-ts-errors",
+    "gruntfuggly.todo-tree",
+    "ms-vscode.vscode-typescript-next",
+    "jasonnutter.search-node-modules",
+    "stylelint.vscode-stylelint",
+    "styled-components.vscode-styled-components"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Rawshin: Dev",
+      "type": "shell",
+      "command": "pnpm dev",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Rawshin: Lint",
+      "type": "shell",
+      "command": "pnpm lint",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Rawshin: Typecheck",
+      "type": "shell",
+      "command": "pnpm -s tsc --noEmit",
+      "group": "test",
+      "problemMatcher": []
+    }
+  ]
+}
