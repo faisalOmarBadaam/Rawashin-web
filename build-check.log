@@ -1,0 +1,61 @@
+
+> rawshin@1.0.0 build D:\rawsh\rawshin
+> next build
+
+   ▲ Next.js 15.5.12
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 75s
+   Skipping linting
+   Checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/4) ...
+   Generating static pages (1/4) 
+   Generating static pages (2/4) 
+   Generating static pages (3/4) 
+ ✓ Generating static pages (4/4)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /_not-found                            999 B         103 kB
+├ ƒ /[lang]/[...not-found]               1.26 kB         201 kB
+├ ƒ /[lang]/401                          2.14 kB         152 kB
+├ ƒ /[lang]/401-not-authorized           2.14 kB         152 kB
+├ ƒ /[lang]/404-not-found                1.77 kB         151 kB
+├ ƒ /[lang]/clients                      8.58 kB         584 kB
+├ ƒ /[lang]/clients/[id]                 2.32 kB         314 kB
+├ ƒ /[lang]/clients/[id]/card              553 B         315 kB
+├ ƒ /[lang]/clients/[id]/edit              196 B         462 kB
+├ ƒ /[lang]/clients/[id]/view              197 B         462 kB
+├ ƒ /[lang]/clients/add                  2.96 kB         317 kB
+├ ƒ /[lang]/employees                    8.51 kB         584 kB
+├ ƒ /[lang]/employees/[id]                 196 B         459 kB
+├ ƒ /[lang]/employees/[id]/card            555 B         315 kB
+├ ƒ /[lang]/employees/[id]/edit            540 B         315 kB
+├ ƒ /[lang]/employees/[id]/view            197 B         459 kB
+├ ƒ /[lang]/employees/add                5.87 kB         313 kB
+├ ƒ /[lang]/examples/page-layout         3.58 kB         109 kB
+├ ƒ /[lang]/home                          117 kB         701 kB
+├ ƒ /[lang]/login                        2.06 kB         263 kB
+├ ƒ /[lang]/register                      2.3 kB         262 kB
+├ ƒ /[lang]/settlements                  3.56 kB         396 kB
+├ ƒ /[lang]/settlements/[id]             11.5 kB         541 kB
+├ ƒ /[lang]/statistics                   6.91 kB         181 kB
+├ ƒ /[lang]/support-ticket               3.93 kB         375 kB
+├ ƒ /[lang]/support-ticket/[id]          8.06 kB         236 kB
+├ ƒ /[lang]/transactions                 4.89 kB         376 kB
+├ ƒ /[lang]/transactions/[id]/view       6.36 kB         174 kB
+├ ƒ /[lang]/users                        12.2 kB         438 kB
+├ ƒ /[lang]/users/[id]                   6.67 kB         458 kB
+└ ƒ /[lang]/users/add                    5.32 kB         312 kB
++ First Load JS shared by all             102 kB
+  ├ chunks/1255-ad409e5887c155b0.js      45.7 kB
+  ├ chunks/4bd1b696-100b9d70ed4e49c1.js  54.2 kB
+  └ other shared chunks (total)          2.15 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

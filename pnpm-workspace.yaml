@@ -1,0 +1,11 @@
+ignoredBuiltDependencies:
+  - '@vscode/ripgrep'
+onlyBuiltDependencies:
+  - '@firebase/util'
+  - '@parcel/watcher'
+  - '@swc/core'
+  - core-js
+  - esbuild
+  - protobufjs
+  - sharp
+  - unrs-resolver

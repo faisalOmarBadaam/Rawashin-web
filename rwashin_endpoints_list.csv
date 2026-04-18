@@ -1,0 +1,72 @@
+method,path,summary,tags,has_request_body,auth_required
+POST,/api/attachments/clients/{clientId},,Attachments,Yes,No
+GET,/api/attachments/clients/{clientId},,Attachments,No,No
+GET,/api/attachments/{attachmentId}/download,,Attachments,No,No
+DELETE,/api/attachments/{attachmentId},,Attachments,No,No
+GET,/api/audit-logs,جلب سجل العمليات مع التصفية والترقيم.,AuditLogs,No,Yes
+POST,/api/Auth/forgot-password/request-OTP,طلب رمز تحقق OTP لإعادة تعيين كلمة المرور.,Auth,Yes,No
+POST,/api/Auth/forgot-password/verify-OTP,التحقق من رمز OTP الخاص باستعادة كلمة المرور.,Auth,Yes,No
+POST,/api/Auth/forgot-password/reset,إعادة تعيين كلمة المرور باستخدام الرمز الذي تم التحقق منه.,Auth,Yes,No
+POST,/api/Auth/register,تسجيل مستخدم جديد وإنشاء حسابه في النظام.,Auth,Yes,No
+POST,/api/Auth/login,تسجيل الدخول وإرجاع رمز الوصول ورمز التحديث.,Auth,Yes,No
+POST,/api/Auth/refresh,تحديث جلسة المستخدم باستخدام رمز التحديث.,Auth,Yes,No
+POST,/api/Auth/logout,تسجيل خروج المستخدم الحالي وإنهاء جلسته.,Auth,No,Yes
+POST,/api/Auth/ResetPassword,تغيير كلمة مرور المستخدم الحالي.,Auth,Yes,No
+PATCH,/api/Auth/ToggleFirstLogin,تغيير حالة أول تسجيل دخول لمستخدم محدد.,Auth,No,No
+POST,/api/Auth/admin-reset-password,إعادة تعيين كلمة مرور مستخدم من قبل الإدارة.,Auth,Yes,No
+GET,/api/clients/{id},جلب بيانات عميل حسب المعرف.,Clients,No,No
+PUT,/api/clients/{id},تحديث بيانات عميل.,Clients,Yes,No
+DELETE,/api/clients/{id},حذف عميل حذفاً منطقياً.,Clients,No,No
+GET,/api/clients/{id}/contact,جلب بيانات التواصل الخاصة بعميل محدد.,Clients,No,No
+GET,/api/clients/credit-card/{cardNumber},جلب عميل باستخدام رقم البطاقة الائتمانية.,Clients,No,No
+GET,/api/clients,جلب قائمة العملاء مع التصفية والبحث والترقيم.,Clients,No,No
+GET,/api/clients/lookup,جلب قائمة مختصرة للعملاء حسب النوع.,Clients,No,No
+GET,/api/clients/{clientId}/lookupChildren,جلب الحسابات الفرعية التابعة لعميل معين.,Clients,No,No
+GET,/api/clients/{id}/transactions,جلب الحركات المالية الخاصة بعميل محدد.,Clients,No,No
+GET,/api/clients/{id}/Transactions/CreditAccount/TotalAmount,جلب إجمالي رصيد البطاقة الائتمانية لعميل محدد.,Clients,No,No
+PATCH,/api/clients/{id}/status,تغيير حالة تفعيل العميل.,Clients,No,No
+PATCH,/api/clients/{id}/credit-account/received,تغيير حالة استلام البطاقة للعميل.,Clients,No,No
+PATCH,/api/clients/{clientId}/assign-card,إسناد رقم بطاقة جديد لعميل محدد.,Clients,Yes,No
+PATCH,/api/clients/{clientId}/credit-account/passcode,تحديث الرمز السري للبطاقة الخاصة بالعميل.,Clients,Yes,No
+POST,/api/clients/{merchantId}/sub-merchants,إضافة تاجر فرعي جديد لتاجر رئيسي.,Clients,Yes,No
+PUT,/api/clients/{merchantId}/sub-merchants/{subMerchantId},تحديث بيانات تاجر فرعي.,Clients,Yes,No
+DELETE,/api/clients/{merchantId}/sub-merchants/{subMerchantId},حذف تاجر فرعي من تاجر رئيسي.,Clients,No,No
+POST,/api/clients/{id}/commissions,إضافة عمولة لعميل محدد.,Clients,Yes,No
+GET,/api/clients/statistics/count,إرجاع عدد العملاء حسب نوع العميل.,Clients,No,No
+POST,/api/Commissions/clients/{clientId},إضافة عمولة لعميل محدد.,Commissions,Yes,No
+GET,/api/Commissions/clients/{clientId},جلب بيانات العمولة الخاصة بعميل محدد.,Commissions,No,No
+POST,/api/Merchant/{merchantId}/sub-merchants,إضافة تاجر فرعي جديد لتاجر رئيسي.,Merchant,Yes,No
+PUT,/api/Merchant/{merchantId}/sub-merchants/{subMerchantId},تحديث بيانات تاجر فرعي.,Merchant,Yes,No
+DELETE,/api/Merchant/{merchantId}/sub-merchants/{subMerchantId},حذف تاجر فرعي من تاجر رئيسي.,Merchant,No,No
+POST,/api/Merchant/{merchantId}/sub-merchants/settlement,تسوية أرصدة التجار الفرعيين التابعين لتاجر رئيسي.,Merchant,No,No
+POST,/api/Notifications/send-to-all,إرسال إشعار جماعي إلى جميع المستخدمين.,Notifications,Yes,No
+POST,/api/Roles/assign,إسناد دور لمستخدم.,Roles,No,No
+GET,/api/Roles,جلب جميع الأدوار المتاحة في النظام.,Roles,No,No
+GET,/api/Roles/{id},جلب جميع الأدوار الخاصة بمستخدم محدد.,Roles,No,No
+POST,/api/Roles/unassign,إزالة دور من مستخدم.,Roles,No,No
+POST,/api/clients/{clientId}/settlements,إنشاء طلب تسوية جديد لعميل محدد.,Settlements,Yes,No
+PUT,/api/Settlements/{id},تحديث طلب تسوية موجود.,Settlements,Yes,No
+GET,/api/Settlements/{id},جلب طلب تسوية حسب المعرف.,Settlements,No,No
+GET,/api/Settlements,جلب جميع طلبات التسوية مع التصفية والترقيم.,Settlements,No,Yes
+GET,/api/clients/{id}/settlements,جلب طلبات التسوية الخاصة بعميل محدد.,Settlements,No,Yes
+PUT,/api/Settlements/{id}/process,تحويل طلب التسوية إلى حالة قيد المعالجة.,Settlements,No,No
+POST,/api/Settlements/{id}/complete,إكمال طلب التسوية وتسجيل بيانات الدفع النهائية.,Settlements,Yes,No
+PUT,/api/Settlements/{id}/cancel,إلغاء طلب تسوية مع تسجيل سبب الإلغاء.,Settlements,Yes,No
+GET,/api/Settlements/settlement-details/{referenceId},جلب الحركات المالية المرتبطة بمرجع تسوية محدد.,Settlements,No,No
+POST,/api/Transactions,إنشاء عملية دفع جديدة بين العميل والتاجر.,Transactions,Yes,No
+GET,/api/Transactions,جلب قائمة العمليات المالية مع التصفية والترقيم.,Transactions,No,No
+POST,/api/Transactions/creaditAccount/charge,شحن حساب عميل من الحساب الإداري الرئيسي.,Transactions,Yes,No
+DELETE,/api/Transactions/{id},حذف عملية مالية حذفاً منطقياً.,Transactions,No,No
+GET,/api/Transactions/{id},جلب تفاصيل عملية مالية حسب المعرف.,Transactions,No,No
+POST,/api/Transactions/refund,استرجاع عملية مالية بالاعتماد على الرقم المرجعي.,Transactions,Yes,No
+GET,/api/Transactions/{clientId}/reference/{referenceId},جلب جميع العمليات المالية المرتبطة برقم مرجعي محدد.,Transactions,No,No
+GET,/api/Transactions/statistics/count,إرجاع عدد العمليات المالية حسب نوع العميل.,Transactions,No,No
+GET,/api/Transactions/statistics/TotalSum,إرجاع ملخص إجمالي الحركات المالية حسب نوع العميل.,Transactions,No,No
+POST,/api/Transactions/upload-batch/{partnerId},رفع ملف دفعة مالية لشريك محدد ومعالجته.,Transactions,Yes,No
+POST,/api/Transactions/account-charges/batch,شحن حسابات العملاء من خلال ملف دفعي وإرجاع ملف نتيجة المعالجة.,Transactions,Yes,No
+GET,/api/Transactions/balance/{clientId},الحصول على الرصيد الحالي للعميل أو الشريك بناءً على معرفه.,Transactions,No,No
+POST,/api/Transactions/balances/total,حساب مجموع أرصدة مجموعة من العملاء بناءً على قائمة معرفاتهم.,Transactions,Yes,No
+POST,/api/Transactions/deposit,تعزيز رصيد حساب الإدارة الرئيسية.,Transactions,Yes,No
+POST,/api/Transactions/Charger-Charge-Customer/{id},شحن رصيد عميل بواسطة موزع محدد.,Transactions,Yes,No
+POST,/api/Transactions/refill-charger,تغذية حساب موزع من الإدارة الرئيسية.,Transactions,No,No
+GET,/api/client/{clientId}/transactions/statistics,جلب إحصائيات العمليات المالية الخاصة بعميل محدد.,Transactions,No,No

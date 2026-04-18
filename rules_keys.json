@@ -1,0 +1,13 @@
+[
+  "ClientContactDto",
+  "ClientResponseDto",
+  "ClientType",
+  "ClientUpdateRequest",
+  "PagedResultOfClientResponseDto",
+  "PagedResultOfTransactionForAClientDto",
+  "SubClientsSettlementResultDto",
+  "TransactionForAClientDto",
+  "TransactionsClientStatisticsResult",
+  "UpdateClientCardNumberRequest",
+  "UpdateClientPassCodeRequest"
+]

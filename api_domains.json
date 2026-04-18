@@ -1,0 +1,93 @@
+{
+  "Attachments": [
+    "POST /api/attachments/clients/{clientId}",
+    "GET /api/attachments/clients/{clientId}",
+    "GET /api/attachments/{attachmentId}/download",
+    "DELETE /api/attachments/{attachmentId}"
+  ],
+  "AuditLogs": [
+    "GET /api/audit-logs"
+  ],
+  "Auth": [
+    "POST /api/Auth/forgot-password/request-OTP",
+    "POST /api/Auth/forgot-password/verify-OTP",
+    "POST /api/Auth/forgot-password/reset",
+    "POST /api/Auth/register",
+    "POST /api/Auth/login",
+    "POST /api/Auth/refresh",
+    "POST /api/Auth/logout",
+    "POST /api/Auth/ResetPassword",
+    "PATCH /api/Auth/ToggleFirstLogin",
+    "POST /api/Auth/admin-reset-password"
+  ],
+  "Clients": [
+    "GET /api/clients/{id}",
+    "PUT /api/clients/{id}",
+    "DELETE /api/clients/{id}",
+    "GET /api/clients/{id}/contact",
+    "GET /api/clients/credit-card/{cardNumber}",
+    "GET /api/clients",
+    "GET /api/clients/lookup",
+    "GET /api/clients/{clientId}/lookupChildren",
+    "GET /api/clients/{id}/transactions",
+    "GET /api/clients/{id}/Transactions/CreditAccount/TotalAmount",
+    "PATCH /api/clients/{id}/status",
+    "PATCH /api/clients/{id}/credit-account/received",
+    "PATCH /api/clients/{clientId}/assign-card",
+    "PATCH /api/clients/{clientId}/credit-account/passcode",
+    "POST /api/clients/{merchantId}/sub-merchants",
+    "PUT /api/clients/{merchantId}/sub-merchants/{subMerchantId}",
+    "DELETE /api/clients/{merchantId}/sub-merchants/{subMerchantId}",
+    "POST /api/clients/{id}/commissions",
+    "GET /api/clients/statistics/count"
+  ],
+  "Commissions": [
+    "POST /api/Commissions/clients/{clientId}",
+    "GET /api/Commissions/clients/{clientId}"
+  ],
+  "Merchant": [
+    "POST /api/Merchant/{merchantId}/sub-merchants",
+    "PUT /api/Merchant/{merchantId}/sub-merchants/{subMerchantId}",
+    "DELETE /api/Merchant/{merchantId}/sub-merchants/{subMerchantId}",
+    "POST /api/Merchant/{merchantId}/sub-merchants/settlement"
+  ],
+  "Notifications": [
+    "POST /api/Notifications/send-to-all"
+  ],
+  "Roles": [
+    "POST /api/Roles/assign",
+    "GET /api/Roles",
+    "GET /api/Roles/{id}",
+    "POST /api/Roles/unassign"
+  ],
+  "Settlements": [
+    "POST /api/clients/{clientId}/settlements",
+    "PUT /api/Settlements/{id}",
+    "GET /api/Settlements/{id}",
+    "GET /api/Settlements",
+    "GET /api/clients/{id}/settlements",
+    "PUT /api/Settlements/{id}/process",
+    "POST /api/Settlements/{id}/complete",
+    "PUT /api/Settlements/{id}/cancel",
+    "GET /api/Settlements/settlement-details/{referenceId}"
+  ],
+  "Transactions": [
+    "POST /api/Transactions",
+    "GET /api/Transactions",
+    "POST /api/Transactions/creaditAccount/charge",
+    "DELETE /api/Transactions/{id}",
+    "GET /api/Transactions/{id}",
+    "POST /api/Transactions/refund",
+    "GET /api/Transactions/reference/{referenceId}",
+    "GET /api/Transactions/statistics/count",
+    "GET /api/Transactions/statistics/TotalSum",
+    "POST /api/Transactions/upload-batch/{partnerId}",
+    "POST /api/Transactions/account-charges/batch",
+    "GET /api/Transactions/balance/{clientId}",
+    "POST /api/Transactions/balances/total",
+    "POST /api/Transactions/deposit",
+    "POST /api/Transactions/Charger-Charge-Customer/{id}",
+    "POST /api/Transactions/refill-charger",
+    "GET /api/client/{clientId}/transactions/statistics"
+  ]
+}

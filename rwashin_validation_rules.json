@@ -1,0 +1,2076 @@
+{
+  "AddCommissionRequest": {
+    "model_name": "AddCommissionRequest",
+    "type": "object",
+    "required_fields": [
+      "commissionRate",
+      "description",
+      "commissionDate"
+    ],
+    "fields": {
+      "commissionRate": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "description": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "commissionDate": {
+        "type": "string",
+        "required": true,
+        "format": "date-time"
+      }
+    }
+  },
+  "AddSubMerchantsRequest": {
+    "model_name": "AddSubMerchantsRequest",
+    "type": "object",
+    "required_fields": [
+      "nationalId",
+      "firstName",
+      "secondName",
+      "thirdName",
+      "lastName",
+      "phoneNumber",
+      "address",
+      "city",
+      "password"
+    ],
+    "fields": {
+      "nationalId": {
+        "type": "string",
+        "required": true
+      },
+      "firstName": {
+        "type": "string",
+        "required": true
+      },
+      "secondName": {
+        "type": "string",
+        "required": true
+      },
+      "thirdName": {
+        "type": "string",
+        "required": true
+      },
+      "lastName": {
+        "type": "string",
+        "required": true
+      },
+      "phoneNumber": {
+        "type": "string",
+        "required": true
+      },
+      "address": {
+        "type": "string",
+        "required": true
+      },
+      "city": {
+        "type": "string",
+        "required": true
+      },
+      "password": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  "AdminResetPasswordRequest": {
+    "model_name": "AdminResetPasswordRequest",
+    "type": "object",
+    "required_fields": [
+      "newPassword"
+    ],
+    "fields": {
+      "newPassword": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  "ApiError": {
+    "model_name": "ApiError",
+    "type": "object",
+    "required_fields": [
+      "code",
+      "message"
+    ],
+    "fields": {
+      "code": {
+        "type": "string",
+        "required": true
+      },
+      "message": {
+        "type": "string",
+        "required": true
+      },
+      "field": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  "ApiResponseOfObject": {
+    "model_name": "ApiResponseOfObject",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "success": {
+        "type": "boolean",
+        "required": false
+      },
+      "message": {
+        "type": "string",
+        "required": false
+      },
+      "data": {
+        "type": "unknown",
+        "required": false
+      },
+      "errors": {
+        "type": "array",
+        "required": false
+      },
+      "traceId": {
+        "type": "string",
+        "required": false
+      },
+      "timestampUtc": {
+        "type": "string",
+        "required": false,
+        "format": "date-time"
+      }
+    }
+  },
+  "AttachmentDownloadDto": {
+    "model_name": "AttachmentDownloadDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "content": {
+        "type": "unknown",
+        "required": false
+      },
+      "contentType": {
+        "type": "string",
+        "required": false
+      },
+      "downloadFileName": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  "AttachmentDTO": {
+    "model_name": "AttachmentDTO",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "attachmentId": {
+        "type": "string",
+        "required": false,
+        "format": "uuid"
+      },
+      "fileId": {
+        "type": "string",
+        "required": false,
+        "format": "uuid"
+      }
+    }
+  },
+  "AttachmentListItemDto": {
+    "model_name": "AttachmentListItemDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "id": {
+        "type": "string",
+        "required": false,
+        "format": "uuid"
+      },
+      "clientId": {
+        "type": "string",
+        "required": false,
+        "format": "uuid"
+      },
+      "originalFileName": {
+        "type": "string",
+        "required": false
+      },
+      "storedFileName": {
+        "type": "string",
+        "required": false
+      },
+      "contentType": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      },
+      "createdAt": {
+        "type": "string",
+        "required": false,
+        "format": "date-time"
+      }
+    }
+  },
+  "AuditLogResponseDto": {
+    "model_name": "AuditLogResponseDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "id": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int64"
+      },
+      "eventTime": {
+        "type": "string",
+        "required": false,
+        "format": "date-time"
+      },
+      "action": {
+        "type": "string",
+        "required": false
+      },
+      "entityName": {
+        "type": "string",
+        "required": false
+      },
+      "fullName": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      },
+      "effectedColumnsJson": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      }
+    }
+  },
+  "AuthResponseDto": {
+    "model_name": "AuthResponseDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "accessToken": {
+        "type": "string",
+        "required": false
+      },
+      "refreshToken": {
+        "type": "string",
+        "required": false
+      },
+      "expiresIn": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+-]?\\d+)?$",
+        "format": "double"
+      },
+      "isFirstLogin": {
+        "type": [
+          "null",
+          "boolean"
+        ],
+        "required": false
+      }
+    }
+  },
+  "BatchProcessResultDto": {
+    "model_name": "BatchProcessResultDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "totalRows": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "processedRows": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "newClientsCreated": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "totalAmount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "errors": {
+        "type": "array",
+        "required": false
+      },
+      "isSuccess": {
+        "type": "boolean",
+        "required": false
+      }
+    }
+  },
+  "CancelSettlementRequest": {
+    "model_name": "CancelSettlementRequest",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "reason": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  "ChargeCreditAccountRequest": {
+    "model_name": "ChargeCreditAccountRequest",
+    "type": "object",
+    "required_fields": [
+      "phoneNumber",
+      "amount",
+      "note"
+    ],
+    "fields": {
+      "phoneNumber": {
+        "type": "string",
+        "required": true
+      },
+      "amount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "note": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      }
+    }
+  },
+  "ChargerChargeCustomerRequest": {
+    "model_name": "ChargerChargeCustomerRequest",
+    "type": "object",
+    "required_fields": [
+      "phoneNumber",
+      "amount",
+      "note"
+    ],
+    "fields": {
+      "phoneNumber": {
+        "type": "string",
+        "required": true
+      },
+      "amount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "note": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      }
+    }
+  },
+  "ClientContactDto": {
+    "model_name": "ClientContactDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "fullName": {
+        "type": "string",
+        "required": false
+      },
+      "phoneNumber": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  "ClientResponseDto": {
+    "model_name": "ClientResponseDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "id": {
+        "type": "string",
+        "required": false,
+        "format": "uuid"
+      },
+      "isActive": {
+        "type": "boolean",
+        "required": false
+      },
+      "isReceivedCard": {
+        "type": "boolean",
+        "required": false
+      },
+      "nationalId": {
+        "type": "string",
+        "required": false
+      },
+      "firstName": {
+        "type": "string",
+        "required": false
+      },
+      "secondName": {
+        "type": "string",
+        "required": false
+      },
+      "thirdName": {
+        "type": "string",
+        "required": false
+      },
+      "lastName": {
+        "type": "string",
+        "required": false
+      },
+      "fullName": {
+        "type": "string",
+        "required": false
+      },
+      "parentClientId": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false,
+        "format": "uuid"
+      },
+      "parentClientName": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      },
+      "createdAt": {
+        "type": "string",
+        "required": false,
+        "format": "date-time"
+      },
+      "email": {
+        "type": "string",
+        "required": false
+      },
+      "phoneNumber": {
+        "type": "string",
+        "required": false
+      },
+      "address": {
+        "type": "string",
+        "required": false
+      },
+      "city": {
+        "type": "string",
+        "required": false
+      },
+      "profilePictureUrl": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      },
+      "organizationName": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      },
+      "nationalIdType": {
+        "type": "unknown",
+        "required": false,
+        "oneOf": [
+          "null",
+          "unknown"
+        ]
+      },
+      "nationalIdTypeName": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      },
+      "clientType": {
+        "type": "unknown",
+        "required": false
+      },
+      "creditAccount": {
+        "type": "unknown",
+        "required": false,
+        "oneOf": [
+          "null",
+          "unknown"
+        ]
+      },
+      "transactions": {
+        "type": "array",
+        "required": false
+      },
+      "totalAmount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      }
+    }
+  },
+  "ClientType": {
+    "model_name": "ClientType",
+    "type": "integer",
+    "required_fields": [],
+    "fields": {}
+  },
+  "ClientUpdateRequest": {
+    "model_name": "ClientUpdateRequest",
+    "type": "object",
+    "required_fields": [
+      "nationalId",
+      "firstName",
+      "secondName",
+      "thirdName",
+      "lastName",
+      "parentClientId",
+      "email",
+      "phoneNumber",
+      "address",
+      "city",
+      "profilePictureUrl",
+      "nationalIdType",
+      "organizationName"
+    ],
+    "fields": {
+      "nationalId": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "firstName": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "secondName": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "thirdName": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "lastName": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "parentClientId": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true,
+        "format": "uuid"
+      },
+      "email": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "phoneNumber": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "address": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "city": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "profilePictureUrl": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "nationalIdType": {
+        "type": "unknown",
+        "required": true,
+        "oneOf": [
+          "null",
+          "unknown"
+        ]
+      },
+      "organizationName": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      }
+    }
+  },
+  "CommissionsDto": {
+    "model_name": "CommissionsDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "id": {
+        "type": "string",
+        "required": false,
+        "format": "uuid"
+      },
+      "commissionRate": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "description": {
+        "type": "string",
+        "required": false
+      },
+      "commissionDate": {
+        "type": "string",
+        "required": false,
+        "format": "date-time"
+      }
+    }
+  },
+  "CreditAccountDto": {
+    "model_name": "CreditAccountDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "id": {
+        "type": "string",
+        "required": false,
+        "format": "uuid"
+      },
+      "cardNumber": {
+        "type": "string",
+        "required": false
+      },
+      "cvv": {
+        "type": "string",
+        "required": false
+      },
+      "expiredOn": {
+        "type": "string",
+        "required": false,
+        "format": "date-time"
+      },
+      "status": {
+        "type": "unknown",
+        "required": false
+      },
+      "passCode": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  "CreditAccountStatus": {
+    "model_name": "CreditAccountStatus",
+    "type": "integer",
+    "required_fields": [],
+    "fields": {}
+  },
+  "DepositToAdminRequest": {
+    "model_name": "DepositToAdminRequest",
+    "type": "object",
+    "required_fields": [
+      "amount",
+      "note"
+    ],
+    "fields": {
+      "amount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "note": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      }
+    }
+  },
+  "ForgotPasswordRequestRequest": {
+    "model_name": "ForgotPasswordRequestRequest",
+    "type": "object",
+    "required_fields": [
+      "phoneNumber"
+    ],
+    "fields": {
+      "phoneNumber": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  "ForgotPasswordResetRequest": {
+    "model_name": "ForgotPasswordResetRequest",
+    "type": "object",
+    "required_fields": [
+      "phoneNumber",
+      "resetPasswordToken",
+      "newPassword"
+    ],
+    "fields": {
+      "phoneNumber": {
+        "type": "string",
+        "required": true
+      },
+      "resetPasswordToken": {
+        "type": "string",
+        "required": true
+      },
+      "newPassword": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  "ForgotPasswordResponseDto": {
+    "model_name": "ForgotPasswordResponseDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "expiresAt": {
+        "type": "string",
+        "required": false,
+        "format": "date-time"
+      }
+    }
+  },
+  "ForgotPasswordVerifyRequest": {
+    "model_name": "ForgotPasswordVerifyRequest",
+    "type": "object",
+    "required_fields": [
+      "phoneNumber",
+      "resetPaswordOTP"
+    ],
+    "fields": {
+      "phoneNumber": {
+        "type": "string",
+        "required": true
+      },
+      "resetPaswordOTP": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  "GetClientsBalancesSumRequest": {
+    "model_name": "GetClientsBalancesSumRequest",
+    "type": "object",
+    "required_fields": [
+      "clientsIds"
+    ],
+    "fields": {
+      "clientsIds": {
+        "type": "array",
+        "required": true
+      }
+    }
+  },
+  "IFormFile": {
+    "model_name": "IFormFile",
+    "type": "string",
+    "required_fields": [],
+    "fields": {}
+  },
+  "LoginRequest": {
+    "model_name": "LoginRequest",
+    "type": "object",
+    "required_fields": [
+      "emailOrPhoneNumber",
+      "password",
+      "deviceNotificationToken"
+    ],
+    "fields": {
+      "emailOrPhoneNumber": {
+        "type": "string",
+        "required": true
+      },
+      "password": {
+        "type": "string",
+        "required": true
+      },
+      "deviceNotificationToken": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      }
+    }
+  },
+  "LookupDto": {
+    "model_name": "LookupDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "id": {
+        "type": "string",
+        "required": false,
+        "format": "uuid"
+      },
+      "name": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  "NationalIdType": {
+    "model_name": "NationalIdType",
+    "type": "integer",
+    "required_fields": [],
+    "fields": {}
+  },
+  "PagedResultOfAttachmentListItemDto": {
+    "model_name": "PagedResultOfAttachmentListItemDto",
+    "type": "object",
+    "required_fields": [
+      "items",
+      "pageNumber",
+      "pageSize"
+    ],
+    "fields": {
+      "items": {
+        "type": "array",
+        "required": true
+      },
+      "totalCount": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "pageNumber": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "pageSize": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "totalPages": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "hasPrevious": {
+        "type": "boolean",
+        "required": false
+      },
+      "hasNext": {
+        "type": "boolean",
+        "required": false
+      }
+    }
+  },
+  "PagedResultOfAuditLogResponseDto": {
+    "model_name": "PagedResultOfAuditLogResponseDto",
+    "type": "object",
+    "required_fields": [
+      "items",
+      "pageNumber",
+      "pageSize"
+    ],
+    "fields": {
+      "items": {
+        "type": "array",
+        "required": true
+      },
+      "totalCount": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "pageNumber": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "pageSize": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "totalPages": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "hasPrevious": {
+        "type": "boolean",
+        "required": false
+      },
+      "hasNext": {
+        "type": "boolean",
+        "required": false
+      }
+    }
+  },
+  "PagedResultOfClientResponseDto": {
+    "model_name": "PagedResultOfClientResponseDto",
+    "type": "object",
+    "required_fields": [
+      "items",
+      "pageNumber",
+      "pageSize"
+    ],
+    "fields": {
+      "items": {
+        "type": "array",
+        "required": true
+      },
+      "totalCount": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "pageNumber": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "pageSize": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "totalPages": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "hasPrevious": {
+        "type": "boolean",
+        "required": false
+      },
+      "hasNext": {
+        "type": "boolean",
+        "required": false
+      }
+    }
+  },
+  "PagedResultOfSettlementResponseDto": {
+    "model_name": "PagedResultOfSettlementResponseDto",
+    "type": "object",
+    "required_fields": [
+      "items",
+      "pageNumber",
+      "pageSize"
+    ],
+    "fields": {
+      "items": {
+        "type": "array",
+        "required": true
+      },
+      "totalCount": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "pageNumber": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "pageSize": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "totalPages": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "hasPrevious": {
+        "type": "boolean",
+        "required": false
+      },
+      "hasNext": {
+        "type": "boolean",
+        "required": false
+      }
+    }
+  },
+  "PagedResultOfTransactionForAClientDto": {
+    "model_name": "PagedResultOfTransactionForAClientDto",
+    "type": "object",
+    "required_fields": [
+      "items",
+      "pageNumber",
+      "pageSize"
+    ],
+    "fields": {
+      "items": {
+        "type": "array",
+        "required": true
+      },
+      "totalCount": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "pageNumber": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "pageSize": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "totalPages": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "hasPrevious": {
+        "type": "boolean",
+        "required": false
+      },
+      "hasNext": {
+        "type": "boolean",
+        "required": false
+      }
+    }
+  },
+  "PagedResultOfTransactionResponseDto": {
+    "model_name": "PagedResultOfTransactionResponseDto",
+    "type": "object",
+    "required_fields": [
+      "items",
+      "pageNumber",
+      "pageSize"
+    ],
+    "fields": {
+      "items": {
+        "type": "array",
+        "required": true
+      },
+      "totalCount": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "pageNumber": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "pageSize": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "totalPages": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "hasPrevious": {
+        "type": "boolean",
+        "required": false
+      },
+      "hasNext": {
+        "type": "boolean",
+        "required": false
+      }
+    }
+  },
+  "PaymentMethod": {
+    "model_name": "PaymentMethod",
+    "type": "integer",
+    "required_fields": [],
+    "fields": {}
+  },
+  "ProblemDetails": {
+    "model_name": "ProblemDetails",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "type": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      },
+      "title": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      },
+      "status": {
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "detail": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      },
+      "instance": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      }
+    }
+  },
+  "RefreshTokenRequest": {
+    "model_name": "RefreshTokenRequest",
+    "type": "object",
+    "required_fields": [
+      "refreshToken"
+    ],
+    "fields": {
+      "refreshToken": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  "RefundTransactionRequest": {
+    "model_name": "RefundTransactionRequest",
+    "type": "object",
+    "required_fields": [
+      "referenceId",
+      "note"
+    ],
+    "fields": {
+      "referenceId": {
+        "type": "string",
+        "required": true
+      },
+      "note": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      }
+    }
+  },
+  "RegisterRequest": {
+    "model_name": "RegisterRequest",
+    "type": "object",
+    "required_fields": [
+      "email",
+      "phoneNumber",
+      "password",
+      "firstName",
+      "secondName",
+      "thirdName",
+      "lastName",
+      "nationalId",
+      "organizationName",
+      "nationalIdType",
+      "address",
+      "profilePictureUrl",
+      "clientType",
+      "city",
+      "parentClientId"
+    ],
+    "fields": {
+      "email": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "phoneNumber": {
+        "type": "string",
+        "required": true
+      },
+      "password": {
+        "type": "string",
+        "required": true
+      },
+      "firstName": {
+        "type": "string",
+        "required": true
+      },
+      "secondName": {
+        "type": "string",
+        "required": true
+      },
+      "thirdName": {
+        "type": "string",
+        "required": true
+      },
+      "lastName": {
+        "type": "string",
+        "required": true
+      },
+      "nationalId": {
+        "type": "string",
+        "required": true
+      },
+      "organizationName": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "nationalIdType": {
+        "type": "unknown",
+        "required": true
+      },
+      "address": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "profilePictureUrl": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "clientType": {
+        "type": "unknown",
+        "required": true
+      },
+      "city": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      },
+      "parentClientId": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true,
+        "format": "uuid"
+      }
+    }
+  },
+  "RequestSettlementRequest": {
+    "model_name": "RequestSettlementRequest",
+    "type": "object",
+    "required_fields": [
+      "grossAmount",
+      "description"
+    ],
+    "fields": {
+      "grossAmount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "description": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      }
+    }
+  },
+  "ResetPasswordRequest": {
+    "model_name": "ResetPasswordRequest",
+    "type": "object",
+    "required_fields": [
+      "userId",
+      "oldPassword",
+      "newPassword"
+    ],
+    "fields": {
+      "userId": {
+        "type": "string",
+        "required": true,
+        "format": "uuid"
+      },
+      "oldPassword": {
+        "type": "string",
+        "required": true
+      },
+      "newPassword": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  "RowErrorDetail": {
+    "model_name": "RowErrorDetail",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "rowNumber": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "phoneNumber": {
+        "type": "string",
+        "required": false
+      },
+      "errorMessage": {
+        "type": "string",
+        "required": false
+      }
+    }
+  },
+  "SendToAllCommand": {
+    "model_name": "SendToAllCommand",
+    "type": "object",
+    "required_fields": [
+      "request"
+    ],
+    "fields": {
+      "request": {
+        "type": "unknown",
+        "required": true
+      }
+    }
+  },
+  "SendToAllRequest": {
+    "model_name": "SendToAllRequest",
+    "type": "object",
+    "required_fields": [
+      "title",
+      "body",
+      "image"
+    ],
+    "fields": {
+      "title": {
+        "type": "string",
+        "required": true
+      },
+      "body": {
+        "type": "string",
+        "required": true
+      },
+      "image": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      }
+    }
+  },
+  "SettlementResponseDto": {
+    "model_name": "SettlementResponseDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "id": {
+        "type": "string",
+        "required": false,
+        "format": "uuid"
+      },
+      "clientId": {
+        "type": "string",
+        "required": false,
+        "format": "uuid"
+      },
+      "clientName": {
+        "type": "string",
+        "required": false
+      },
+      "description": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      },
+      "settlementDate": {
+        "type": "string",
+        "required": false,
+        "format": "date-time"
+      },
+      "grossAmount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "requestedAt": {
+        "type": "string",
+        "required": false,
+        "format": "date-time"
+      },
+      "status": {
+        "type": "unknown",
+        "required": false
+      },
+      "commissionPercentage": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "commissionAmount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "netAmount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "processingStartedAt": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false,
+        "format": "date-time"
+      },
+      "method": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      },
+      "paymentReference": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      },
+      "adminNote": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      },
+      "completedAt": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false,
+        "format": "date-time"
+      }
+    }
+  },
+  "SettlementStatus": {
+    "model_name": "SettlementStatus",
+    "type": "integer",
+    "required_fields": [],
+    "fields": {}
+  },
+  "Stream": {
+    "model_name": "Stream",
+    "type": "string",
+    "required_fields": [],
+    "fields": {}
+  },
+  "SubClientsSettlementResultDto": {
+    "model_name": "SubClientsSettlementResultDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "totalAmount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "settledChildrenCount": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      }
+    }
+  },
+  "TransactionAddRequest": {
+    "model_name": "TransactionAddRequest",
+    "type": "object",
+    "required_fields": [
+      "clientId",
+      "amount",
+      "cardNumber",
+      "passCode",
+      "description"
+    ],
+    "fields": {
+      "clientId": {
+        "type": "string",
+        "required": true,
+        "format": "uuid"
+      },
+      "amount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "cardNumber": {
+        "type": "string",
+        "required": true
+      },
+      "passCode": {
+        "type": "string",
+        "required": true
+      },
+      "description": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  "TransactionBalanceSummaryDto": {
+    "model_name": "TransactionBalanceSummaryDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "balanceAvailable": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "incomingBalance": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "outgoingBalance": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      }
+    }
+  },
+  "TransactionForAClientDto": {
+    "model_name": "TransactionForAClientDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "toClientId": {
+        "type": "string",
+        "required": false,
+        "format": "uuid"
+      },
+      "referenceId": {
+        "type": "string",
+        "required": false
+      },
+      "amount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "description": {
+        "type": "string",
+        "required": false
+      },
+      "createdAt": {
+        "type": "string",
+        "required": false,
+        "format": "date-time"
+      },
+      "clientName": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      },
+      "toClientName": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": false
+      }
+    }
+  },
+  "TransactionResponseDto": {
+    "model_name": "TransactionResponseDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "referenceId": {
+        "type": "string",
+        "required": false
+      },
+      "id": {
+        "type": "string",
+        "required": false,
+        "format": "uuid"
+      },
+      "transactionNumber": {
+        "type": [
+          "null",
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int64"
+      },
+      "clientId": {
+        "type": "string",
+        "required": false,
+        "format": "uuid"
+      },
+      "clientName": {
+        "type": "string",
+        "required": false
+      },
+      "amount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "description": {
+        "type": "string",
+        "required": false
+      },
+      "createdAt": {
+        "type": "string",
+        "required": false,
+        "format": "date-time"
+      }
+    }
+  },
+  "TransactionResultDto": {
+    "model_name": "TransactionResultDto",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "referenceId": {
+        "type": "string",
+        "required": false
+      },
+      "merchantTransaction": {
+        "type": "unknown",
+        "required": false
+      },
+      "customerTransaction": {
+        "type": "unknown",
+        "required": false
+      },
+      "commissionAmount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      }
+    }
+  },
+  "TransactionsClientStatisticsResult": {
+    "model_name": "TransactionsClientStatisticsResult",
+    "type": "object",
+    "required_fields": [],
+    "fields": {
+      "totalInAmount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "totalOutAmount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "totalIntransactions": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      },
+      "totalOuttransactions": {
+        "type": [
+          "integer",
+          "string"
+        ],
+        "required": false,
+        "pattern": "^-?(?:0|[1-9]\\d*)$",
+        "format": "int32"
+      }
+    }
+  },
+  "UpdateClientCardNumberRequest": {
+    "model_name": "UpdateClientCardNumberRequest",
+    "type": "object",
+    "required_fields": [
+      "customCardNumber"
+    ],
+    "fields": {
+      "customCardNumber": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      }
+    }
+  },
+  "UpdateClientPassCodeRequest": {
+    "model_name": "UpdateClientPassCodeRequest",
+    "type": "object",
+    "required_fields": [
+      "userPassword",
+      "newPassCode"
+    ],
+    "fields": {
+      "userPassword": {
+        "type": "string",
+        "required": true
+      },
+      "newPassCode": {
+        "type": "string",
+        "required": true
+      }
+    }
+  },
+  "UpdateSettlementRequest": {
+    "model_name": "UpdateSettlementRequest",
+    "type": "object",
+    "required_fields": [
+      "grossAmount",
+      "description"
+    ],
+    "fields": {
+      "grossAmount": {
+        "type": [
+          "number",
+          "string"
+        ],
+        "required": true,
+        "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?$",
+        "format": "double"
+      },
+      "description": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "required": true
+      }
+    }
+  },
+  "UpdateSubMerchantRequest": {
+    "model_name": "UpdateSubMerchantRequest",
+    "type": "object",
+    "required_fields": [
+      "firstName",
+      "secondName",
+      "thirdName",
+      "lastName",
+      "phoneNumber",
+      "address",
+      "city"
+    ],
+    "fields": {
+      "firstName": {
+        "type": "string",
+        "required": true
+      },
+      "secondName": {
+        "type": "string",
+        "required": true
+      },
+      "thirdName": {
+        "type": "string",
+        "required": true
+      },
+      "lastName": {
+        "type": "string",
+        "required": true
+      },
+      "phoneNumber": {
+        "type": "string",
+        "required": true
+      },
+      "address": {
+        "type": "string",
+        "required": true
+      },
+      "city": {
+        "type": "string",
+        "required": true
+      }
+    }
+  }
+}

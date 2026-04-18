@@ -1,0 +1,102 @@
+{
+  "model_name": "RegisterRequest",
+  "type": "object",
+  "required_fields": [
+    "email",
+    "phoneNumber",
+    "password",
+    "firstName",
+    "secondName",
+    "thirdName",
+    "lastName",
+    "nationalId",
+    "organizationName",
+    "nationalIdType",
+    "address",
+    "profilePictureUrl",
+    "clientType",
+    "city",
+    "parentClientId"
+  ],
+  "fields": {
+    "email": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "required": true
+    },
+    "phoneNumber": {
+      "type": "string",
+      "required": true
+    },
+    "password": {
+      "type": "string",
+      "required": true
+    },
+    "firstName": {
+      "type": "string",
+      "required": true
+    },
+    "secondName": {
+      "type": "string",
+      "required": true
+    },
+    "thirdName": {
+      "type": "string",
+      "required": true
+    },
+    "lastName": {
+      "type": "string",
+      "required": true
+    },
+    "nationalId": {
+      "type": "string",
+      "required": true
+    },
+    "organizationName": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "required": true
+    },
+    "nationalIdType": {
+      "type": "unknown",
+      "required": true
+    },
+    "address": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "required": true
+    },
+    "profilePictureUrl": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "required": true
+    },
+    "clientType": {
+      "type": "unknown",
+      "required": true
+    },
+    "city": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "required": true
+    },
+    "parentClientId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "required": true,
+      "format": "uuid"
+    }
+  }
+}
