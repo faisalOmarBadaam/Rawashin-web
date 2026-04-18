@@ -1,0 +1,60 @@
+.page {
+  width: 85.6mm;
+  min-width: 85.6mm;
+  max-width: 85.6mm;
+  height: 53.98mm;
+  min-height: 53.98mm;
+  max-height: 53.98mm;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  page-break-after: always;
+  break-after: page;
+}
+
+.card {
+  box-sizing: border-box;
+  width: 85.6mm;
+  height: 53.98mm;
+  border: 0.2mm solid #d7d7d7;
+  border-radius: 2.5mm;
+  padding: 3.5mm;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  row-gap: 2mm;
+  background: #fff;
+}
+
+.logo {
+  width: 11mm;
+  height: 11mm;
+  object-fit: contain;
+}
+
+.qrWrap {
+  width: 18mm;
+  height: 18mm;
+  justify-self: end;
+}
+
+.number {
+  margin: 0;
+  font-family: 'Courier New', monospace;
+  font-size: 3.8mm;
+  letter-spacing: 0.35mm;
+  line-height: 1;
+  color: #111;
+}
+
+.holder {
+  margin: 0;
+  font-size: 2.9mm;
+  line-height: 1;
+  color: #2f2f2f;
+}
+
+@media print {
+  .page {
+    margin: 0;
+  }
+}

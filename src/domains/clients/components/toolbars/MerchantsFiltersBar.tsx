@@ -1,0 +1,102 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+
+import Box from '@mui/material/Box'
+import FormControl from '@mui/material/FormControl'
+import InputAdornment from '@mui/material/InputAdornment'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField'
+
+import FilterResetButton from '@/components/filters/FilterResetButton'
+import FiltersBar from '@/components/filters/FiltersBar'
+import { useClientsStore } from '@/contexts/clients/clients.store'
+import useDebouncedValue from '@/hooks/useDebouncedValue'
+import { ClientType } from '@/types/api/clients'
+
+const DEFAULT_FILTERS = {
+  Search: undefined,
+  ClientType: ClientType.Merchant,
+  IsActive: undefined,
+  IsReceivedCard: undefined,
+  ParentsOnly: undefined,
+  ParentClientId: undefined,
+}
+
+export default function MerchantsFiltersBar() {
+  const { query, setQuery } = useClientsStore()
+
+  const [search, setSearch] = useState(query.Search ?? '')
+  const debouncedSearch = useDebouncedValue(search, 400)
+
+  useEffect(() => {
+    setQuery({ Search: debouncedSearch || undefined }, { resetPage: true })
+  }, [debouncedSearch, setQuery])
+
+  const hasActiveFilters = Boolean(search) || query.IsActive !== undefined
+
+  return (
+    <FiltersBar>
+      <TextField
+        size="small"
+        placeholder="بحث بالاسم، الهاتف..."
+        sx={{ minWidth: 240 }}
+        value={search}
+        onChange={event => setSearch(event.target.value)}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <i className="ri-search-line" />
+            </InputAdornment>
+          ),
+        }}
+      />
+
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <FormControl size="small" sx={{ minWidth: 160 }}>
+          <InputLabel id="status-label">حالة الحساب</InputLabel>
+          <Select
+            labelId="status-label"
+            label="حالة الحساب"
+            value={
+              query.IsActive === true ? 'active' : query.IsActive === false ? 'inactive' : 'all'
+            }
+            onChange={e => {
+              const value = e.target.value
+              setQuery(
+                {
+                  IsActive: value === 'active' ? true : value === 'inactive' ? false : undefined,
+                },
+                { resetPage: true },
+              )
+            }}
+          >
+            <MenuItem value="all">الكل</MenuItem>
+            <MenuItem value="active">نشط</MenuItem>
+            <MenuItem value="inactive">موقوف</MenuItem>
+          </Select>
+        </FormControl>
+
+        {hasActiveFilters && (
+          <FilterResetButton
+            onReset={() => {
+              setSearch('')
+              setQuery(
+                {
+                  Search: DEFAULT_FILTERS.Search,
+                  ClientType: DEFAULT_FILTERS.ClientType,
+                  IsActive: DEFAULT_FILTERS.IsActive,
+                  IsReceivedCard: DEFAULT_FILTERS.IsReceivedCard,
+                  ParentsOnly: DEFAULT_FILTERS.ParentsOnly,
+                },
+                { resetPage: true },
+              )
+            }}
+          />
+        )}
+      </Box>
+    </FiltersBar>
+  )
+}

@@ -1,0 +1,120 @@
+/* ===== PAGE ===== */
+.page {
+  box-sizing: border-box;
+  background: #ffffff;
+  color: #000000;
+  padding: 3mm;
+  font-family: 'Courier New', 'Noto Naskh Arabic', monospace;
+  font-size: 11px;
+  line-height: 1.35;
+  direction: rtl;
+}
+
+/* ===== WIDTHS ===== */
+.size80 {
+  width: 80mm;
+}
+
+.size58 {
+  width: 58mm;
+  font-size: 10px;
+}
+
+/* ===== HEADER ===== */
+.header {
+  text-align: center;
+}
+
+.logo {
+  width: 16mm;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 1mm;
+}
+
+.title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0.8mm 0 0;
+  font-size: 11px;
+}
+
+/* ===== SEPARATOR ===== */
+.separator {
+  margin: 2mm 0;
+  border-top: 0.3mm dashed #000000;
+}
+
+/* ===== BODY ===== */
+.body {
+  margin-top: 1mm;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.2mm;
+  gap: 2mm;
+}
+
+.label {
+  flex: 1;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.value {
+  text-align: left;
+  white-space: nowrap;
+ 
+}
+
+/* ===== HIGHLIGHT (Net Amount) ===== */
+.highlightRow {
+  font-weight: 700;
+  border-top: 0.3mm dashed #000000;
+  padding-top: 1.2mm;
+  margin-top: 1.2mm;
+}
+
+/* ===== QR ===== */
+.qrWrap {
+  display: grid;
+  place-items: center;
+  margin: 2mm 0;
+  width: 100%;
+}
+
+/* react-qr-code renders SVG */
+.qrWrap :global(svg) {
+  width: 10mm;
+  height: 10mm;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  font-size: 10px;
+  margin-top: 2mm;
+}
+
+/* ===== PRINT ===== */
+@page {
+  size: auto;
+  margin: 0;
+}
+
+@media print {
+  .size80 {
+    width: 80mm;
+  }
+
+  .size58 {
+    width: 58mm;
+  }
+}

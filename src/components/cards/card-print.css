@@ -1,0 +1,120 @@
+.card-print-root {
+  display: grid;
+  gap: 0;
+}
+
+.card-print-pages {
+  display: grid;
+  gap: 0;
+}
+
+.card-print-page {
+  width: 85.6mm;
+  height: 53.98mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-print-grid {
+  display: grid;
+  place-items: center;
+}
+
+.client-print-card {
+  width: 85.6mm;
+  height: 53.98mm;
+  overflow: hidden;
+  position: relative;
+}
+
+.client-print-card-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.client-print-front-qr-box {
+  position: absolute;
+  top: 8mm;
+  left: 6mm;
+  width: 18mm;
+  height: 18mm;
+  background: #ffffff;
+  border-radius: 2.5mm;
+  padding: 1.5mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.client-print-front-qr-logo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.client-print-front-qr-logo-img {
+  width: var(--card-logo-size, 4mm);
+  height: var(--card-logo-size, 4mm);
+  object-fit: contain;
+  background: #ffffff;
+  padding: 0.6mm;
+  border-radius: 1mm;
+}
+
+.client-print-front-card-number {
+  direction: ltr;
+  unicode-bidi: bidi-override;
+  position: absolute;
+  bottom: 12mm;
+  left: 52%;
+  transform: translateX(-50%);
+  width: 80%;
+  text-align: center;
+  color: #ffffff;
+  font-size: 4.2mm;
+  font-weight: 700;
+  letter-spacing: 0.8mm;
+  font-family: 'Courier New', monospace;
+  white-space: nowrap;
+}
+
+@media screen {
+  .card-print-root {
+    position: fixed;
+    inset-inline-start: -9999px;
+    top: 0;
+  }
+}
+
+@media print {
+  body {
+    margin: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body.card-printing > :not(.card-print-root) {
+    display: none !important;
+  }
+
+  body.card-printing .card-print-root {
+    position: static;
+    background: #ffffff;
+  }
+
+  .card-print-page {
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .card-print-page:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+}

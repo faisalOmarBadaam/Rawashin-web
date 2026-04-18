@@ -1,0 +1,80 @@
+@page {
+  margin: 0;
+}
+
+.receipt-page {
+  background: white;
+  display: flex;
+  justify-content: center;
+}
+
+.receipt-page.size-80mm {
+  width: 80mm;
+}
+
+.receipt-page.size-58mm {
+  width: 58mm;
+}
+
+.receipt-wrapper {
+  width: 100%;
+  padding: 6mm 5mm;
+  font-family: "Courier New", "Noto Naskh Arabic", monospace;
+  font-size: 12px;
+  color: #000;
+}
+
+.receipt-header {
+  text-align: center;
+}
+
+.receipt-logo {
+  max-width: 35mm;
+  margin-bottom: 4px;
+}
+
+.receipt-title {
+  font-weight: 700;
+}
+
+.receipt-subtitle {
+  font-size: 11px;
+}
+
+.receipt-body {
+  margin-top: 6px;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 2px 0;
+}
+
+.receipt-row .label {
+  font-weight: 400;
+}
+
+.receipt-row .value {
+  font-weight: 400;
+}
+
+.receipt-row.highlight .label,
+.receipt-row.highlight .value {
+  font-weight: 700;
+}
+
+.receipt-qr {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0;
+}
+
+.receipt-footer {
+  text-align: center;
+  margin-top: 6px;
+}
+
+.small {
+  font-size: 10px;
+}
