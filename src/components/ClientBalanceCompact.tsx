@@ -15,7 +15,7 @@ type Props = {
 }
 
 export default function ClientBalanceCompact({ clientId }: Props) {
-  const { balanceData, loading, error, refreshBalance } = useClientBalance(clientId)
+  const { balanceData, loading, refreshBalance } = useClientBalance(clientId)
 
   const balance = Number(balanceData?.currentBalance ?? 0)
 
@@ -46,7 +46,7 @@ export default function ClientBalanceCompact({ clientId }: Props) {
               fontWeight={700}
               color={balance < 0 ? 'error.main' : 'text.primary'}
             >
-              {balance.toLocaleString('en-US')} {currency}
+              {balance.toLocaleString('en-US')} YR
             </Typography>
           </>
         )}

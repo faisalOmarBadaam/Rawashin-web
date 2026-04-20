@@ -45,7 +45,6 @@ export const endpoints = {
     statisticsTotalSum: '/api/Transactions/statistics/TotalSum',
     uploadBatch: (partnerId: string) => `/api/Transactions/upload-batch/${partnerId}`,
     accountChargesBatch: '/api/Transactions/account-charges/batch',
-    balance: (clientId: string) => `/api/Transactions/balance/${clientId}`,
     balancesTotal: '/api/Transactions/balances/total',
     deposit: '/api/Transactions/deposit',
     refund: '/api/Transactions/refund',

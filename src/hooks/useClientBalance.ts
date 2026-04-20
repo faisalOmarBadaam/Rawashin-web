@@ -3,10 +3,9 @@
 import { useCallback, useEffect } from 'react'
 
 import { useTransactionsStore } from '@/contexts/transactions/transactions.store'
-import type { ClientBalanceDto } from '@/types/api/transaction'
 
 export const useClientBalance = (clientId?: string) => {
-  const balanceData = useTransactionsStore(state => state.balance as ClientBalanceDto | null)
+  const balanceData = useTransactionsStore(state => state.balance)
   const loading = useTransactionsStore(state => state.loading)
   const error = useTransactionsStore(state => state.error)
   const fetchBalance = useTransactionsStore(state => state.fetchBalance)
@@ -22,16 +21,9 @@ export const useClientBalance = (clientId?: string) => {
   }, [clientId, refreshBalance])
 
   return {
-
     balanceData,
-
-
     loading,
-
-
     error,
-
-
-    refreshBalance
+    refreshBalance,
   }
 }

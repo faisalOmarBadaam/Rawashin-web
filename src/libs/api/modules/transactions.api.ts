@@ -6,6 +6,7 @@ import type { ClientType } from '@/types/api/clients'
 import type {
   ChargerChargeCustomerRequestDto,
   ChargerStatisticsDto,
+  ClientBalanceDto,
   ClientTransactionsPagedResult,
   DepositDto,
   GetClientsBalancesSumRequestDto,
@@ -80,8 +81,15 @@ export const TransactionsApi = {
       .then(res => res.data as number)
   },
 
-  getBalance(clientId: string): Promise<number> {
-    return apiClient.get(endpoints.transactions.balance(clientId)).then(res => res.data as number)
+  async getBalance(clientId: string): Promise<ClientBalanceDto> {
+    const totalAmount = await api.get<number>(endpoints.clients.transactionsTotalAmount(clientId))
+
+    return {
+      clientId,
+      currentBalance: Number(totalAmount ?? 0),
+      currency: null,
+      lastUpdated: null,
+    }
   },
 
   chargeCreditAccount(payload: TransactionChargeDto) {

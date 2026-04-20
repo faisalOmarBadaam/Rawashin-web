@@ -27,8 +27,8 @@ type TransactionsState = {
   totalCount: number
   loading: boolean
   error: string | null
-  balance: ClientBalanceDto | number | null
-  fetchBalance: (clientId: string) => Promise<ClientBalanceDto | number>
+  balance: ClientBalanceDto | null
+  fetchBalance: (clientId: string) => Promise<ClientBalanceDto>
   query: TransactionsQueryParams
   setQuery: (q: Partial<TransactionsQueryParams>, options?: { resetPage?: boolean }) => void
 

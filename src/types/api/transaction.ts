@@ -83,8 +83,8 @@ export interface TransactionRequestDto {
 export type ClientBalanceDto = {
   clientId: string
   currentBalance: number
-  currency: string
-  lastUpdated: string
+  currency?: string | null
+  lastUpdated?: string | null
 }
 
 export interface TransactionChargeDto {
