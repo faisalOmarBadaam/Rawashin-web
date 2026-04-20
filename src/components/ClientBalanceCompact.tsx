@@ -18,8 +18,6 @@ export default function ClientBalanceCompact({ clientId }: Props) {
   const { balanceData, loading, error, refreshBalance } = useClientBalance(clientId)
 
   const balance = Number(balanceData?.currentBalance ?? 0)
-  const currency = balanceData?.currency ?? ''
-  const lastUpdated = balanceData?.lastUpdated
 
   return (
     <Box
