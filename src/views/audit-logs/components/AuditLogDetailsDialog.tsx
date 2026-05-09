@@ -45,19 +45,13 @@ const formatDateTime = (value?: string | null) => {
   return Number.isNaN(date.getTime()) ? value : dateFormatter.format(date)
 }
 
-const parseJsonRecord = (value?: string | null): Record<string, unknown> => {
-  if (!value?.trim()) return {}
+const parseJson = (value?: string | null): unknown => {
+  if (!value?.trim()) return null
 
   try {
-    const parsed = JSON.parse(value) as unknown
-
-    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
-      return parsed as Record<string, unknown>
-    }
-
-    return {}
+    return JSON.parse(value) as unknown
   } catch {
-    return {}
+    return null
   }
 }
 
@@ -76,18 +70,34 @@ const formatValue = (value: unknown): string => {
 const buildEntries = (auditLog: AuditLogDto | null): EffectEntry[] => {
   if (!auditLog) return []
 
-  const record = parseJsonRecord(auditLog.effectedColumnsJson)
+  const parsed = parseJson(auditLog.effectedColumnsJson)
 
-  return Object.entries(record).map(([field, change]) => {
-    const normalizedChange =
-      change && typeof change === 'object' ? (change as Record<string, unknown>) : {}
+  if (Array.isArray(parsed)) {
+    return parsed.map(item => {
+      const change = item && typeof item === 'object' ? (item as Record<string, unknown>) : {}
 
-    return {
-      field,
-      oldValue: normalizedChange.old,
-      newValue: normalizedChange.new,
-    }
-  })
+      return {
+        field: String(change.ColumnName ?? change.columnName ?? 'Unknown'),
+        oldValue: change.OldValue ?? change.oldValue ?? change.old ?? null,
+        newValue: change.NewValue ?? change.newValue ?? change.new ?? null,
+      }
+    })
+  }
+
+  if (parsed && typeof parsed === 'object') {
+    return Object.entries(parsed as Record<string, unknown>).map(([field, change]) => {
+      const normalizedChange =
+        change && typeof change === 'object' ? (change as Record<string, unknown>) : {}
+
+      return {
+        field,
+        oldValue: normalizedChange.old ?? normalizedChange.OldValue ?? null,
+        newValue: normalizedChange.new ?? normalizedChange.NewValue ?? null,
+      }
+    })
+  }
+
+  return []
 }
 
 function ValueBlock({ title, value }: { title: string; value: unknown }) {
@@ -117,7 +127,6 @@ function ValueBlock({ title, value }: { title: string; value: unknown }) {
 
 export default function AuditLogDetailsDialog({ open, auditLog, onClose }: Props) {
   const entries = useMemo(() => buildEntries(auditLog), [auditLog])
-
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
       <DialogTitle>تفاصيل التغييرات</DialogTitle>

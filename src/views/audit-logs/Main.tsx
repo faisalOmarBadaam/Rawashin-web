@@ -42,7 +42,6 @@ export default function AuditLogsPage() {
       }),
     [],
   )
-
   return (
     <Card>
       <CardContent>
