@@ -1,20 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import {
-  Alert,
-  Box,
-  CircularProgress,
-  IconButton,
-  Skeleton,
-  Stack,
-  Tooltip,
-  Typography,
-} from '@mui/material'
-import { RiDeleteBinLine, RiDownload2Line, RiEyeLine, RiFileLine } from 'react-icons/ri'
-
-import { imageCache } from '@/utils/imageCache'
+import { Alert, Box, CircularProgress, IconButton, Stack, Tooltip, Typography } from '@mui/material'
+import { RiDeleteBinLine, RiEyeLine, RiFileLine } from 'react-icons/ri'
 
 const isImage = (type?: string | null) => type?.startsWith('image/')
 const isPdf = (type?: string | null) => type === 'application/pdf'
@@ -23,7 +13,7 @@ export type PreviewItem = {
   id: string
   name: string
   contentType?: string | null
-  download: () => Promise<Blob>
+  show: () => Promise<string>
   onDelete?: () => void
 }
 
@@ -32,83 +22,189 @@ type Props = {
   emptyText?: string
 }
 
-type ImageState = {
-  url: string | null
-  loading: boolean
+type AttachmentPreviewCardProps = {
+  item: PreviewItem
+  previewingId: string | null
+  previewLoadingId: string | null
+  imageUrl?: string
+  imageLoading: boolean
+  ensureImageUrl: (item: PreviewItem) => Promise<string | undefined>
+  openPreviewExternal: (item: PreviewItem) => Promise<void>
+  setPreviewingId: Dispatch<SetStateAction<string | null>>
+  setPreviewLoadingId: Dispatch<SetStateAction<string | null>>
+}
+
+function AttachmentPreviewCard({
+  item,
+  previewingId,
+  previewLoadingId,
+  imageUrl,
+  imageLoading,
+  ensureImageUrl,
+  openPreviewExternal,
+  setPreviewingId,
+  setPreviewLoadingId,
+}: AttachmentPreviewCardProps) {
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const [isInView, setIsInView] = useState(false)
+  const image = isImage(item.contentType)
+  const pdf = isPdf(item.contentType)
+  const isPreviewing = previewingId === item.id
+
+  useEffect(() => {
+    const node = containerRef.current
+
+    if (!node || isInView) return
+
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries.some(entry => entry.isIntersecting)) {
+          setIsInView(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: '200px' },
+    )
+
+    observer.observe(node)
+
+    return () => observer.disconnect()
+  }, [isInView])
+
+  useEffect(() => {
+    if (!image || !isInView || imageUrl || imageLoading) return
+
+    void ensureImageUrl(item)
+  }, [ensureImageUrl, image, imageLoading, imageUrl, isInView, item])
+
+  return (
+    <Box
+      ref={containerRef}
+      sx={{
+        border: '1px solid',
+        borderColor: 'divider',
+        borderRadius: 2,
+        overflow: 'hidden',
+        gridColumn: isPreviewing ? 'span 2' : 'span 1',
+      }}
+    >
+      <Box
+        sx={{
+          width: '100%',
+          aspectRatio: isPreviewing ? '16 / 9' : '1 / 1',
+          display: 'grid',
+          placeItems: 'center',
+          bgcolor: 'action.hover',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        {previewLoadingId === item.id && (
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              display: 'grid',
+              placeItems: 'center',
+              bgcolor: 'rgba(255,255,255,0.6)',
+              zIndex: 2,
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )}
+
+        {image ? (
+          imageUrl ? (
+            <Box
+              component="img"
+              src={imageUrl}
+              alt={item.name}
+              sx={{
+                width: '100%',
+                height: '100%',
+                objectFit: isPreviewing ? 'contain' : 'cover',
+              }}
+            />
+          ) : imageLoading ? (
+            <CircularProgress size={24} />
+          ) : (
+            <RiFileLine size={36} />
+          )
+        ) : (
+          <RiFileLine size={36} />
+        )}
+      </Box>
+
+      <Box sx={{ p: 1 }}>
+        <Typography variant="body2" fontWeight={600} noWrap>
+          {item.name}
+        </Typography>
+
+        <Stack direction="row" spacing={0.5} mt={1}>
+          <Tooltip title="عرض">
+            <span>
+              <IconButton size="small" onClick={() => openPreviewExternal(item)}>
+                <RiEyeLine size={16} />
+              </IconButton>
+            </span>
+          </Tooltip>
+
+          {item.onDelete && (
+            <Tooltip title="حذف">
+              <span>
+                <IconButton size="small" color="error" onClick={item.onDelete}>
+                  <RiDeleteBinLine size={16} />
+                </IconButton>
+              </span>
+            </Tooltip>
+          )}
+        </Stack>
+      </Box>
+    </Box>
+  )
 }
 
 export default function FilePreviewPanel({ items, emptyText = 'لا يوجد مرفقات' }: Props) {
   const [previewingId, setPreviewingId] = useState<string | null>(null)
   const [previewLoadingId, setPreviewLoadingId] = useState<string | null>(null)
-  const [images, setImages] = useState<Record<string, ImageState>>({})
-
-  /* preload thumbnails with cache */
-  useEffect(() => {
-    let active = true
-
-    const load = async () => {
-      for (const item of items) {
-        if (!isImage(item.contentType)) continue
-        if (images[item.id]) continue
-
-        const cached = imageCache.get(item.id)
-        if (cached) {
-          imageCache.retain(item.id)
-          setImages(prev => ({
-            ...prev,
-            [item.id]: { url: cached.url, loading: false },
-          }))
-          continue
-        }
-
-        setImages(prev => ({
-          ...prev,
-          [item.id]: { url: null, loading: true },
-        }))
-
-        try {
-          const blob = await item.download()
-          if (!active) return
-
-          const url = URL.createObjectURL(blob)
-          imageCache.set(item.id, url)
-
-          setImages(prev => ({
-            ...prev,
-            [item.id]: { url, loading: false },
-          }))
-        } catch {
-          setImages(prev => ({
-            ...prev,
-            [item.id]: { url: null, loading: false },
-          }))
-        }
-      }
-    }
-
-    load()
-
-    return () => {
-      active = false
-      Object.keys(images).forEach(id => imageCache.release(id))
-    }
-  }, [items])
+  const [imageUrls, setImageUrls] = useState<Record<string, string>>({})
+  const [loadingImages, setLoadingImages] = useState<Record<string, boolean>>({})
+  const requestedImageIdsRef = useRef<Set<string>>(new Set())
 
   const openPreviewExternal = async (item: PreviewItem) => {
-    const blob = await item.download()
-    const url = URL.createObjectURL(blob)
+    const url = await item.show()
     window.open(url, '_blank', 'noopener,noreferrer')
-    setTimeout(() => URL.revokeObjectURL(url), 5000)
   }
 
-  const downloadFile = async (item: PreviewItem) => {
-    const blob = await item.download()
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = item.name
-    a.click()
-    URL.revokeObjectURL(url)
+  const ensureImageUrl = async (item: PreviewItem) => {
+    if (imageUrls[item.id]) return imageUrls[item.id]
+    if (requestedImageIdsRef.current.has(item.id)) return imageUrls[item.id]
+
+    requestedImageIdsRef.current.add(item.id)
+    setLoadingImages(prev => ({ ...prev, [item.id]: true }))
+
+    try {
+      const url = await item.show()
+
+      setImageUrls(prev => {
+        if (prev[item.id] === url) return prev
+        return { ...prev, [item.id]: url }
+      })
+
+      return url
+    } catch (error) {
+      requestedImageIdsRef.current.delete(item.id)
+      throw error
+    } finally {
+      setLoadingImages(prev => {
+        if (!prev[item.id]) return prev
+
+        const next = { ...prev }
+        delete next[item.id]
+        return next
+      })
+    }
   }
 
   if (!items.length) {
@@ -124,120 +220,19 @@ export default function FilePreviewPanel({ items, emptyText = 'لا يوجد م�
       }}
     >
       {items.map(item => {
-        const image = isImage(item.contentType)
-        const pdf = isPdf(item.contentType)
-        const imageState = images[item.id]
-        const isPreviewing = previewingId === item.id
-
         return (
-          <Box
+          <AttachmentPreviewCard
             key={item.id}
-            sx={{
-              border: '1px solid',
-              borderColor: 'divider',
-              borderRadius: 2,
-              overflow: 'hidden',
-              gridColumn: isPreviewing ? 'span 2' : 'span 1',
-            }}
-          >
-            <Box
-              sx={{
-                width: '100%',
-                aspectRatio: isPreviewing ? '16 / 9' : '1 / 1',
-                display: 'grid',
-                placeItems: 'center',
-                bgcolor: 'action.hover',
-                position: 'relative',
-                overflow: 'hidden',
-              }}
-            >
-              {previewLoadingId === item.id && (
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    inset: 0,
-                    display: 'grid',
-                    placeItems: 'center',
-                    bgcolor: 'rgba(255,255,255,0.6)',
-                    zIndex: 2,
-                  }}
-                >
-                  <CircularProgress />
-                </Box>
-              )}
-
-              {image ? (
-                imageState?.loading ? (
-                  <Skeleton variant="rectangular" width="100%" height="100%" />
-                ) : imageState?.url ? (
-                  <Box
-                    component="img"
-                    src={imageState.url}
-                    alt={item.name}
-                    sx={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: isPreviewing ? 'contain' : 'cover',
-                    }}
-                  />
-                ) : (
-                  <RiFileLine size={36} />
-                )
-              ) : (
-                <RiFileLine size={36} />
-              )}
-            </Box>
-
-            <Box sx={{ p: 1 }}>
-              <Typography variant="body2" fontWeight={600} noWrap>
-                {item.name}
-              </Typography>
-
-              <Stack direction="row" spacing={0.5} mt={1}>
-                {(image || pdf) && (
-                  <Tooltip title="معاينة">
-                    <span>
-                      <IconButton
-                        size="small"
-                        onClick={async () => {
-                          if (!image) return openPreviewExternal(item)
-
-                          if (previewingId === item.id) {
-                            setPreviewingId(null)
-                            return
-                          }
-
-                          setPreviewLoadingId(item.id)
-                          setPreviewingId(item.id)
-                          setPreviewLoadingId(null)
-                        }}
-                      >
-                        <RiEyeLine size={16} />
-                      </IconButton>
-                    </span>
-                  </Tooltip>
-                )}
-
-                <Tooltip title="تحميل">
-                  <span>
-                    <IconButton size="small" onClick={() => downloadFile(item)}>
-                      <RiDownload2Line size={16} />
-                    </IconButton>
-                  </span>
-                </Tooltip>
-
-                {item.onDelete && (
-                  <Tooltip title="حذف">
-                    <span>
-                      <IconButton size="small" color="error" onClick={item.onDelete}>
-                        <RiDeleteBinLine size={16} />
-                      </IconButton>
-                    </span>
-                  </Tooltip>
-                )}
-              </Stack>
-            </Box>
-          </Box>
+            item={item}
+            previewingId={previewingId}
+            previewLoadingId={previewLoadingId}
+            imageUrl={imageUrls[item.id]}
+            imageLoading={Boolean(loadingImages[item.id])}
+            ensureImageUrl={ensureImageUrl}
+            openPreviewExternal={openPreviewExternal}
+            setPreviewingId={setPreviewingId}
+            setPreviewLoadingId={setPreviewLoadingId}
+          />
         )
       })}
     </Box>

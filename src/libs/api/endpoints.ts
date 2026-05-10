@@ -108,7 +108,7 @@ export const endpoints = {
 
   attachment: {
     deleteById: (id: string) => `/api/attachments/${id}`,
-    downloadById: (id: string) => `/api/attachments/${id}/download`,
+    showById: (id: string) => `/api/attachments/${id}/temporary-url`,
     clientAttachments: (clientId: string) => `/api/attachments/clients/${clientId}`,
     addClientAttachment: (clientId: string) => `/api/attachments/clients/${clientId}`,
   },

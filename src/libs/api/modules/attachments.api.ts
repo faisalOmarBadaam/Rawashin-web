@@ -27,7 +27,6 @@ export const AttachmentsApi = {
         if (Array.isArray(result)) {
           const pageNumber = params?.PageNumber ?? 1
           const pageSize = params?.PageSize ?? (result.length || 10)
-
           return {
             items: result,
             totalCount: result.length,
@@ -47,7 +46,9 @@ export const AttachmentsApi = {
   },
 
   getClientAttachments(clientId: string, params?: ClientAttachmentsQueryParams) {
-    return this.getClientAttachmentsPaged(clientId, params).then(result => result.items ?? [])
+    const url = this.getClientAttachmentsPaged(clientId, params).then(result => result.items ?? [])
+
+    return url
   },
 
   addClientAttachment(
@@ -79,10 +80,9 @@ export const AttachmentsApi = {
     )
   },
 
-  downloadById(id: string) {
-    return apiClient
-      .get(endpoints.attachment.downloadById(id), { responseType: 'blob' })
-      .then(res => res.data as Blob)
+  async showById(id: string) {
+    const res = await apiClient.get(endpoints.attachment.showById(id))
+    return res.data.url as string
   },
 
   deleteById(id: string) {

@@ -71,15 +71,6 @@ export const useAddClientAttachmentMutation = (
   })
 }
 
-export const useDownloadAttachmentMutation = (
-  options?: UseMutationOptions<Blob, unknown, string>,
-) => {
-  return useMutation({
-    mutationFn: id => AttachmentsApi.downloadById(id),
-    ...options,
-  })
-}
-
 export const useDeleteAttachmentMutation = (
   clientId: string,
   options?: UseMutationOptions<void, unknown, string>,

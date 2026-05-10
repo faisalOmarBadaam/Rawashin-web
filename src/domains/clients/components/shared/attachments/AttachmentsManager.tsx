@@ -44,9 +44,7 @@ export default function AttachmentsManager({ open, clientId, clientType, onClose
   const [uploadOpen, setUploadOpen] = useState(false)
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null)
 
-  const attachmentsQuery = useClientAttachmentsQuery(clientId, {
-    enabled: open && Boolean(clientId),
-  })
+  const attachmentsQuery = useClientAttachmentsQuery(clientId, { enabled: open })
   const deleteAttachmentMutation = useDeleteAttachmentMutation(clientId)
 
   const title = `مرفقات ${getClientTypeLabel(clientType)}`
@@ -57,7 +55,7 @@ export default function AttachmentsManager({ open, clientId, clientType, onClose
         id: a.id,
         name: a.originalFileName ?? '',
         contentType: a.contentType,
-        download: () => AttachmentsApi.downloadById(a.id),
+        show: async () => await AttachmentsApi.showById(a.id),
         onDelete: () => setDeleteTarget({ id: a.id, name: a.originalFileName ?? '' }),
       })),
     [attachmentsQuery.data],
