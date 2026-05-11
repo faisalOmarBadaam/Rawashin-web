@@ -13,13 +13,14 @@ import TextField from '@mui/material/TextField'
 import FilterResetButton from '@/components/filters/FilterResetButton'
 import FiltersBar from '@/components/filters/FiltersBar'
 import { useClientsStore } from '@/contexts/clients/clients.store'
+import { CLIENT_STATUS_OPTIONS } from '@/domains/clients/utils/clientStatus'
 import useDebouncedValue from '@/hooks/useDebouncedValue'
-import { ClientType } from '@/types/api/clients'
+import { ClientType, type ClientStatus } from '@/types/api/clients'
 
 const DEFAULT_FILTERS = {
   Search: undefined,
   ClientType: ClientType.Merchant,
-  IsActive: undefined,
+  AccountStatus: undefined,
   IsReceivedCard: undefined,
   ParentsOnly: undefined,
   ParentClientId: undefined,
@@ -35,7 +36,7 @@ export default function MerchantsFiltersBar() {
     setQuery({ Search: debouncedSearch || undefined }, { resetPage: true })
   }, [debouncedSearch, setQuery])
 
-  const hasActiveFilters = Boolean(search) || query.IsActive !== undefined
+  const hasActiveFilters = Boolean(search) || query.AccountStatus !== undefined
 
   return (
     <FiltersBar>
@@ -60,22 +61,24 @@ export default function MerchantsFiltersBar() {
           <Select
             labelId="status-label"
             label="حالة الحساب"
-            value={
-              query.IsActive === true ? 'active' : query.IsActive === false ? 'inactive' : 'all'
-            }
+            value={query.AccountStatus ?? 'all'}
             onChange={e => {
               const value = e.target.value
               setQuery(
                 {
-                  IsActive: value === 'active' ? true : value === 'inactive' ? false : undefined,
+                  AccountStatus: value === 'all' ? undefined : (Number(value) as ClientStatus),
+                  IsActive: undefined,
                 },
                 { resetPage: true },
               )
             }}
           >
             <MenuItem value="all">الكل</MenuItem>
-            <MenuItem value="active">نشط</MenuItem>
-            <MenuItem value="inactive">موقوف</MenuItem>
+            {CLIENT_STATUS_OPTIONS.map(option => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
 
@@ -87,7 +90,7 @@ export default function MerchantsFiltersBar() {
                 {
                   Search: DEFAULT_FILTERS.Search,
                   ClientType: DEFAULT_FILTERS.ClientType,
-                  IsActive: DEFAULT_FILTERS.IsActive,
+                  AccountStatus: DEFAULT_FILTERS.AccountStatus,
                   IsReceivedCard: DEFAULT_FILTERS.IsReceivedCard,
                   ParentsOnly: DEFAULT_FILTERS.ParentsOnly,
                 },

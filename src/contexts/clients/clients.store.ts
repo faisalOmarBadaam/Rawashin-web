@@ -2,7 +2,7 @@ import { create } from 'zustand'
 
 import { ClientsApi } from '@/libs/api/modules/clients.api'
 
-import type { ClientType } from '@/types/api/clients'
+import type { ClientStatus, ClientType } from '@/types/api/clients'
 import {
   type ClientContactDto,
   type ClientDto,
@@ -53,7 +53,7 @@ type ClientsState = {
   updateClient: (id: string, payload: UpdateClientRequestDto) => Promise<ClientDto>
   deleteClient: (id: string) => Promise<void>
 
-  changeStatus: (clientId: string) => Promise<void>
+  changeStatus: (clientId: string, status: ClientStatus) => Promise<void>
 
   chanceReceiveCard: (clientId: string) => Promise<void>
 
@@ -241,8 +241,8 @@ export const useClientsStore = create<ClientsState>((set, get) => ({
     queryClient.invalidateQueries({ queryKey: CLIENT_KEY(id) })
   },
 
-  changeStatus: async clientId => {
-    await ClientsApi.changeStatus(clientId)
+  changeStatus: async (clientId, status) => {
+    await ClientsApi.changeStatus(clientId, status)
     queryClient.invalidateQueries({ queryKey: QueryKeys.clients.all })
     queryClient.invalidateQueries({ queryKey: CLIENT_KEY(clientId) })
   },

@@ -1,6 +1,7 @@
 import type { GridColDef } from '@mui/x-data-grid'
 
 import RowActionsMenu from '@/components/datagrid/RowActionsMenu'
+import { getClientStatus } from '@/domains/clients/utils/clientStatus'
 import type { ClientDto } from '@/types/api/clients'
 import { ClientType } from '@/types/api/clients'
 
@@ -41,11 +42,12 @@ export const getClientColumns = (
   ]
 
   const status: GridColDef<ClientDto> = {
-    field: 'isActive',
+    field: 'status',
     headerName: 'الحالة',
-    width: 140,
+    width: 220,
     align: 'center',
     headerAlign: 'center',
+    valueGetter: (_, row) => getClientStatus(row),
     renderCell: params => <ClientStatusSwitch client={params.row} />,
   }
 

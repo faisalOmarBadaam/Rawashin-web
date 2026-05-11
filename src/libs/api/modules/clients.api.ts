@@ -7,6 +7,7 @@ import type {
   ClientDto,
   ClientPagedResult,
   ClientQueryParams,
+  ClientStatus,
   ClientType,
   CreateClientRequestDto,
   CreditAccountDto,
@@ -53,8 +54,8 @@ export const ClientsApi = {
     return api.delete<void>(endpoints.clients.byId(id))
   },
 
-  changeStatus(clientId: string) {
-    return api.patch<void, undefined>(endpoints.clients.changeStatus(clientId), undefined)
+  changeStatus(clientId: string, status: ClientStatus) {
+    return api.patch<void, ClientStatus>(endpoints.clients.changeStatus(clientId), status)
   },
   chanceReceiveCard(clientId: string) {
     return api.patch<void, undefined>(endpoints.clients.chanceReceiveCard(clientId), undefined)

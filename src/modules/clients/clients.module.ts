@@ -34,7 +34,14 @@ export const clientsModule = createEntityModule({
   },
   filters: {
     key: 'clients.filters',
-    fields: ['Search', 'ClientType', 'ParentClientId', 'IsActive', 'IsReceivedCard', 'ParentsOnly'],
+    fields: [
+      'Search',
+      'ClientType',
+      'ParentClientId',
+      'AccountStatus',
+      'IsReceivedCard',
+      'ParentsOnly',
+    ],
   },
   defaults: {
     query: {

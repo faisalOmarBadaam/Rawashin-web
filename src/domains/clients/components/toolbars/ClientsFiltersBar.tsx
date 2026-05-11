@@ -16,8 +16,9 @@ import ControlledAutocomplete from '@/components/ControlledAutocomplete'
 import FilterResetButton from '@/components/filters/FilterResetButton'
 import FiltersBar from '@/components/filters/FiltersBar'
 import { useClientsStore } from '@/contexts/clients/clients.store'
+import { CLIENT_STATUS_OPTIONS } from '@/domains/clients/utils/clientStatus'
 import useDebouncedValue from '@/hooks/useDebouncedValue'
-import { ClientType, type LookupDto } from '@/types/api/clients'
+import { ClientType, type ClientStatus, type LookupDto } from '@/types/api/clients'
 
 const CLIENT_TYPE_OPTIONS = [
   { value: ClientType.Client, label: 'مستفيد' },
@@ -28,7 +29,7 @@ const CLIENT_TYPE_OPTIONS = [
 const DEFAULT_FILTERS = {
   Search: undefined,
   ClientType: ClientType.Client,
-  IsActive: undefined,
+  AccountStatus: undefined,
   IsReceivedCard: undefined,
   ParentsOnly: undefined,
   ParentClientId: undefined,
@@ -140,7 +141,7 @@ export default function ClientsFiltersBar() {
   const hasActiveFilters =
     Boolean(search) ||
     Boolean(query.ParentClientId) ||
-    query.IsActive !== undefined ||
+    query.AccountStatus !== undefined ||
     query.IsReceivedCard !== undefined ||
     query.ParentsOnly !== undefined ||
     query.ClientType !== ClientType.Client
@@ -196,22 +197,24 @@ export default function ClientsFiltersBar() {
           <Select
             labelId="status-label"
             label="حالة الحساب"
-            value={
-              query.IsActive === true ? 'active' : query.IsActive === false ? 'inactive' : 'all'
-            }
+            value={query.AccountStatus ?? 'all'}
             onChange={e => {
               const value = e.target.value
               setQuery(
                 {
-                  IsActive: value === 'active' ? true : value === 'inactive' ? false : undefined,
+                  AccountStatus: value === 'all' ? undefined : (Number(value) as ClientStatus),
+                  IsActive: undefined,
                 },
                 { resetPage: true },
               )
             }}
           >
             <MenuItem value="all">الكل</MenuItem>
-            <MenuItem value="active">نشط</MenuItem>
-            <MenuItem value="inactive">موقوف</MenuItem>
+            {CLIENT_STATUS_OPTIONS.map(option => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
 

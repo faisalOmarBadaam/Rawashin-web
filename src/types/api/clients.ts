@@ -17,6 +17,12 @@ export enum CreditAccountStatus {
   Expired = 3,
 }
 
+export enum ClientStatus {
+  InActive = 0,
+  Active = 1,
+  Pending = 2,
+}
+
 export interface CreditAccountDto {
   id: string
   cardNumber?: string | null
@@ -38,7 +44,10 @@ export type ClientTransactionsPagedResult = PagedResult<ClientTransactionDto>
 
 export interface ClientDto {
   id: string
-  isActive: boolean
+  isActive?: boolean
+  status?: ClientStatus | null
+  accountStatus?: ClientStatus | null
+  AccountStatus?: ClientStatus | null
   isReceivedCard: boolean
 
   nationalId?: string | null
@@ -124,6 +133,7 @@ export type UpdateClientRequestDto = CreateClientRequestDto
 export interface ClientQueryParams {
   ParentClientId?: string
   ClientType?: ClientType
+  AccountStatus?: ClientStatus
   IsActive?: boolean
   IsReceivedCard?: boolean
   ParentsOnly?: boolean
