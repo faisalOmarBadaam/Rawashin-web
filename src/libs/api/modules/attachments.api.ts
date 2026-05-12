@@ -84,7 +84,6 @@ export const AttachmentsApi = {
     const res = await apiClient.get(endpoints.attachment.showById(id))
     return res.data.url as string
   },
-
   deleteById(id: string) {
     return api.delete<void>(endpoints.attachment.deleteById(id))
   },
