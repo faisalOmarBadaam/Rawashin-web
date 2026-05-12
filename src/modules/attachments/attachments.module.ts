@@ -10,7 +10,6 @@ export const attachmentsModule = createEntityModule({
   endpoints: {
     list: (clientId: string, query?: ClientAttachmentsQueryParams) =>
       AttachmentsApi.getClientAttachments(clientId, query),
-    details: AttachmentsApi.downloadById,
     create: AttachmentsApi.addClientAttachment,
     update: async () => undefined,
     remove: AttachmentsApi.deleteById,
