@@ -216,7 +216,7 @@ const RegisterForm = forwardRef<RegisterFormRef, RegisterFormProps>(function Reg
     reset,
     watch,
     trigger,
-    formState: { errors, isDirty, isSubmitting },
+    formState: { errors, isDirty, isSubmitting, touchedFields, submitCount },
   } = useForm<RegisterFormValues>({
     resolver: isView
       ? undefined
@@ -251,8 +251,10 @@ const RegisterForm = forwardRef<RegisterFormRef, RegisterFormProps>(function Reg
   const nationalIdLabel = IDENTITY_LABELS[nationalIdType ?? 0] ?? 'رقم الهوية'
 
   useEffect(() => {
+    if (!touchedFields.nationalId && submitCount === 0) return
+
     trigger('nationalId')
-  }, [nationalIdType, trigger])
+  }, [nationalIdType, submitCount, touchedFields.nationalId, trigger])
 
   useEffect(() => {
     if (!isSubMerchantAdd || !currentMerchantOption) return

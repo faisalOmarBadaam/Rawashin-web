@@ -18,8 +18,6 @@ export const hasFirebaseConfig = () =>
       firebaseConfig.messagingSenderId &&
       firebaseConfig.appId,
   )
-console.log('firebaseConfig', firebaseConfig)
-
 export const getFirebaseApp = (): FirebaseApp | null => {
   if (!hasFirebaseConfig()) return null
 
