@@ -1,0 +1,33 @@
+:root {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	color: var(--rawashn-text-primary, #111111);
+	background-color: var(--rawashn-surface-muted, #f5faf7);
+	direction: rtl;
+	line-height: 1.5;
+	font-weight: 400;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+	min-height: 100%;
+	margin: 0;
+}
+
+body {
+	min-width: 320px;
+	direction: rtl;
+	text-align: right;
+}
+
+a {
+	color: inherit;
+}

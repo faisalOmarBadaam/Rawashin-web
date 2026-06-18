@@ -1,68 +1,73 @@
-# Rawshin Platform – Frontend
+# React + TypeScript + Vite
 
-Rawshin is a digital platform designed to manage and organize client-based services through a modern, scalable web application.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-The platform focuses on simplicity, reliability, and adaptability, with strong support for Arabic-first (RTL) user interfaces and enterprise-ready architecture.
+Currently, two official plugins are available:
 
-This repository contains the **frontend application** of the Rawshin Platform.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
----
+## React Compiler
 
-## About Rawshin
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-Rawshin aims to provide a unified system for managing different types of users such as clients, merchants, and partners through a clean and structured digital experience.
+## Expanding the ESLint configuration
 
-The platform is built to support:
-- Client and account management
-- Role-based access and authentication
-- Financial and transactional workflows
-- Scalable dashboards and data-driven views
-- Integration with backend services and APIs
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-Rawshin is designed with real-world operational needs in mind, prioritizing clarity, consistency, and long-term maintainability.
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
----
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-## Technology Stack
-
-- **Next.js** (App Router)
-- **TypeScript**
-- **Material UI (MUI)** with full RTL support
-- **Zustand** for global state management
-- **React Query** for API data fetching and caching
-- **React Hook Form + Zod** for form handling and validation
-- **Iconify** for icon management
-
----
-
-## Getting Started
-
-Install dependencies:
-
-```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
-## Analytics (PostHog)
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-Add the following environment variables to your local `.env`:
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-```bash
-NEXT_PUBLIC_POSTHOG_KEY=
-NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com
-NEXT_PUBLIC_POSTHOG_ENABLED=
-NEXT_PUBLIC_POSTHOG_RECORDING_ENABLED=false
-NEXT_PUBLIC_POSTHOG_DEBUG=false
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-
-Notes:
-- If `NEXT_PUBLIC_POSTHOG_ENABLED` is empty, analytics is enabled only in production.
-- Set `NEXT_PUBLIC_POSTHOG_ENABLED=true` to test analytics in development.
-- Session recording stays disabled unless `NEXT_PUBLIC_POSTHOG_RECORDING_ENABLED=true`.
-- Performance checks:
-  - `pnpm perf:lighthouse`
-  - `pnpm analyze:bundle`
