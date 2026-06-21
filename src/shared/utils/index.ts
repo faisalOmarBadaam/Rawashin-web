@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-export function formatSettlementDate(
+export function formatDate(
   value?: string | null,
   fallback = '—',
 ) {
@@ -12,7 +12,7 @@ export function formatSettlementDate(
   return parsed.format('YYYY/MM/DD HH:mm')
 }
 
-export function formatSettlementCurrency(value?: number | null) {
+export function formatCurrency(value?: number | null) {
   if (value === null || value === undefined || Number.isNaN(value)) return '—'
 
   return new Intl.NumberFormat('en-US', {

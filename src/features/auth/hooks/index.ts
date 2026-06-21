@@ -76,56 +76,56 @@ export function useLogout() {
   })
 }
 
-/**
- * 5. Reset Password Mutation Hook
- */
-export function useResetPassword() {
-  return useMutation({
-    mutationFn: authApi.resetPassword
-  })
-}
+// /**
+//  * 5. Reset Password Mutation Hook
+//  */
+// export function useResetPassword() {
+//   return useMutation({
+//     mutationFn: authApi.resetPassword
+//   })
+// }
 
-/**
- * 6. Toggle First Login Mutation Hook
- */
-export function useToggleFirstLogin() {
-  return useMutation({
-    mutationFn: authApi.toggleFirstLogin
-  })
-}
+// /**
+//  * 6. Toggle First Login Mutation Hook
+//  */
+// export function useToggleFirstLogin() {
+//   return useMutation({
+//     mutationFn: authApi.toggleFirstLogin
+//   })
+// }
 
-/**
- * 7. Admin Reset Password Mutation Hook
- */
-export function useAdminResetPassword() {
-  return useMutation({
-    mutationFn: authApi.adminResetPassword
-  })
-}
+// /**
+//  * 7. Admin Reset Password Mutation Hook
+//  */
+// export function useAdminResetPassword() {
+//   return useMutation({
+//     mutationFn: authApi.adminResetPassword
+//   })
+// }
 
-/**
- * 8. Forgot Password Request OTP Mutation Hook
- */
-export function useForgotPasswordRequestOTP() {
-  return useMutation({
-    mutationFn: authApi.forgotPasswordRequestOTP
-  })
-}
+// /**
+//  * 8. Forgot Password Request OTP Mutation Hook
+//  */
+// export function useForgotPasswordRequestOTP() {
+//   return useMutation({
+//     mutationFn: authApi.forgotPasswordRequestOTP
+//   })
+// }
 
-/**
- * 9. Forgot Password Verify OTP Mutation Hook
- */
-export function useForgotPasswordVerifyOTP() {
-  return useMutation({
-    mutationFn: authApi.forgotPasswordVerifyOTP
-  })
-}
+// /**
+//  * 9. Forgot Password Verify OTP Mutation Hook
+//  */
+// export function useForgotPasswordVerifyOTP() {
+//   return useMutation({
+//     mutationFn: authApi.forgotPasswordVerifyOTP
+//   })
+// }
 
-/**
- * 10. Forgot Password Reset Mutation Hook
- */
-export function useForgotPasswordReset() {
-  return useMutation({
-    mutationFn: authApi.forgotPasswordReset
-  })
-}
+// /**
+//  * 10. Forgot Password Reset Mutation Hook
+//  */
+// export function useForgotPasswordReset() {
+//   return useMutation({
+//     mutationFn: authApi.forgotPasswordReset
+//   })
+// }

@@ -23,12 +23,12 @@ import RowActionsMenuButton, {
 
 import { SettlementStatsCards } from '../components/SettlementStatsCards'
 import { useSettlements } from '../hooks'
-import { formatSettlementCurrency, formatSettlementDate } from '../utils'
 import {
   getSettlementStatusMeta,
   settlementStatusOptions,
   type SettlementListItem,
 } from '../types'
+import { formatCurrency, formatDate } from '@/shared/utils'
 
 type SettlementQueryState = DataGridQueryState & {
   Status?: string
@@ -145,7 +145,7 @@ export default function SettlementsPage() {
         align: 'center',
         headerAlign: 'center',
         valueGetter: (_value, row) => row.grossAmount,
-        renderCell: (params) => formatSettlementCurrency(params.row.grossAmount),
+        renderCell: (params) => formatCurrency(params.row.grossAmount),
       },
       {
         field: 'status',
@@ -171,7 +171,7 @@ export default function SettlementsPage() {
         width: 190,
         valueGetter: (_value, row) => row.requestedAt ?? row.createdAt ?? null,
         renderCell: (params) =>
-          formatSettlementDate(params.row.requestedAt ?? params.row.createdAt),
+          formatDate(params.row.requestedAt ?? params.row.createdAt),
       },
       {
         field: 'actions',

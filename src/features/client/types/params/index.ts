@@ -25,3 +25,14 @@ export interface AddClientRequest {
   ParentClientId: string | null
   organizationName : string | null
 }
+
+export interface ClientTransactionsParams {
+  PageNumber?: number
+  PageSize?: number
+  SortBy?: string
+  IsDesc?: boolean
+  Search?: string
+  Type?: string | number
+  FromDate?: string
+  ToDate?: string
+}

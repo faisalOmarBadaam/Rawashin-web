@@ -16,7 +16,7 @@ import {
   SettlementStatus,
   type SettlementDetailsResponse,
 } from '../types'
-import { formatSettlementDate } from '../utils'
+import { formatDate } from '../../../shared/utils'
 
 type TimelineStep = {
   id: string
@@ -125,7 +125,7 @@ export default function SettlementTimeline({ settlement }: SettlementTimelinePro
               color="text.secondary"
               sx={{ display: { xs: 'none', md: 'block' }, pt: 2.25 }}
             >
-              {formatSettlementDate(step.date, 'بانتظار التنفيذ')}
+              {formatDate(step.date, 'بانتظار التنفيذ')}
             </TimelineOppositeContent>
 
             <TimelineSeparator>
@@ -153,7 +153,7 @@ export default function SettlementTimeline({ settlement }: SettlementTimelinePro
                     </Typography>
 
                     <Typography variant="caption" color="text.secondary" sx={{ display: { xs: 'block', md: 'none' } }}>
-                      {formatSettlementDate(step.date, 'بانتظار التنفيذ')}
+                      {formatDate(step.date, 'بانتظار التنفيذ')}
                     </Typography>
                   </Stack>
 

@@ -1,8 +1,8 @@
 import { http } from '@/lib/http'
 import type { PaginatedResponse } from '@/shared/types/BaseResponse'
-import type { AddClientRequest, BeneficiaryListParams } from '../types/params'
+import type { AddClientRequest, BeneficiaryListParams, ClientTransactionsParams } from '../types/params'
 import type { ClientType } from '@/shared/types/ClientType'
-import type { ClientListResponse, ClientLookupResponse, MerchantSubResponse } from '../types/responses'
+import type { ClientListResponse, ClientLookupResponse, ClientTransactionResponse, MerchantSubResponse } from '../types/responses'
 
 const ClientEndpoints = {
   list: 'clients',
@@ -13,6 +13,7 @@ const ClientEndpoints = {
   merchantSub: (merchantId: string, subMerchantId: string) => `merchants/${merchantId}/subs/${subMerchantId}`,
   merchantSubSettlement: (merchantId: string, subMerchantId: string) =>
     `merchants/${merchantId}/sub-merchants/${subMerchantId}/settlements`,
+  clientTransactions: (clientId: string) => `clients/${clientId}/transactions`,
   updateClientAccountStatus: (id: string) => `clients/${id}/status`,
   resetClientPassword: `auths/admin-reset-password`,
   assignClientCard:(id:string)=>`customers/${id}/card`
@@ -116,4 +117,16 @@ export function ResetClientPassword(id: string , payload:{"newPassword":string})
 
 export function AssignClientCard(id: string , payload:{"customCardNumber":string}) {
   return http.put(ClientEndpoints.assignClientCard(id),  payload,)
+}
+
+export async function getClientTransactions(
+  clientId: string,
+  params: ClientTransactionsParams
+): Promise<PaginatedResponse<ClientTransactionResponse>> {
+  const response = await http.get<PaginatedResponse<ClientTransactionResponse>>(
+    ClientEndpoints.clientTransactions(clientId),
+    { params }
+  )
+
+  return response.data
 }

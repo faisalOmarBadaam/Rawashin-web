@@ -37,7 +37,7 @@ import {
 } from '../hooks'
 import { DetailItem, InfoSection } from '@/features/client/components/ui'
 import type { CompleteSettlementPayload } from '../types'
-import { formatSettlementCurrency, formatSettlementDate } from '../utils'
+import { formatCurrency, formatDate } from '@/shared/utils'
 
 type SummaryCardProps = {
   title: string
@@ -332,7 +332,7 @@ export default function SettlementDetailsPage() {
             <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <SummaryCard
                 title="إجمالي مبلغ التسوية"
-                value={formatSettlementCurrency(settlement.grossAmount)}
+                value={formatCurrency(settlement.grossAmount)}
                 icon={<AccountBalanceWalletOutlinedIcon />}
               />
             </Grid>
@@ -340,7 +340,7 @@ export default function SettlementDetailsPage() {
             <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <SummaryCard
                 title="صافي المبلغ"
-                value={formatSettlementCurrency(settlement.netAmount)}
+                value={formatCurrency(settlement.netAmount)}
                 icon={<ReceiptLongOutlinedIcon />}
                 tone="success"
               />
@@ -349,7 +349,7 @@ export default function SettlementDetailsPage() {
             <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <SummaryCard
                 title="قيمة العمولة"
-                value={formatSettlementCurrency(settlement.commissionAmount)}
+                value={formatCurrency(settlement.commissionAmount)}
                 icon={<PercentOutlinedIcon />}
                 tone="warning"
               />
@@ -358,7 +358,7 @@ export default function SettlementDetailsPage() {
             <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
               <SummaryCard
                 title="تاريخ التسوية"
-                value={formatSettlementDate(settlement.settlementDate)}
+                value={formatDate(settlement.settlementDate)}
                 icon={<CalendarMonthOutlinedIcon />}
               />
             </Grid>
@@ -417,7 +417,7 @@ export default function SettlementDetailsPage() {
             >
               <DetailItem
                 label="إجمالي المبلغ"
-                value={formatSettlementCurrency(settlement.grossAmount)}
+                value={formatCurrency(settlement.grossAmount)}
               />
               <DetailItem
                 label="نسبة العمولة"
@@ -425,18 +425,18 @@ export default function SettlementDetailsPage() {
               />
               <DetailItem
                 label="قيمة العمولة"
-                value={formatSettlementCurrency(settlement.commissionAmount)}
+                value={formatCurrency(settlement.commissionAmount)}
               />
               <DetailItem
                 label="صافي المبلغ"
-                value={formatSettlementCurrency(settlement.netAmount)}
+                value={formatCurrency(settlement.netAmount)}
               />
-              <DetailItem label="وقت الطلب" value={formatSettlementDate(settlement.requestedAt)} />
+              <DetailItem label="وقت الطلب" value={formatDate(settlement.requestedAt)} />
               <DetailItem
                 label="وقت بدء المعالجة"
-                value={formatSettlementDate(settlement.processingStartedAt)}
+                value={formatDate(settlement.processingStartedAt)}
               />
-              <DetailItem label="وقت الإكمال" value={formatSettlementDate(settlement.completedAt)} />
+              <DetailItem label="وقت الإكمال" value={formatDate(settlement.completedAt)} />
               <DetailItem label="ملاحظة إدارية" value={settlement.adminNote || '—'} />
             </InfoSection>
           </Paper>

@@ -2,15 +2,8 @@ import { http } from '@/lib/http'
 import type {
   LoginInput,
   RegisterInput,
-  ResetPasswordInput,
-  AdminResetPasswordInput,
-  ForgotPasswordRequestOTPInput,
-  ForgotPasswordVerifyOTPInput,
-  ForgotPasswordResetInput,
-  ToggleFirstLoginInput
 } from '../schema'
 import type { AuthResponse } from '../types'
-import type { GenericResponse } from '@/shared/types'
 
 export const authEndpoints = {
   register: 'register',
@@ -47,38 +40,24 @@ export const authApi = {
     return response.data
   },
 
-  logout: async (refreshToken?: string): Promise<GenericResponse> => {
-    const response = await http.post<GenericResponse>(authEndpoints.logout, refreshToken ? { refreshToken } : undefined)
+  logout: async (refreshToken?: string): Promise<void> => {
+    const response = await http.post(authEndpoints.logout, refreshToken ? { refreshToken } : undefined)
     return response.data
   },
 
-  resetPassword: async (data: ResetPasswordInput): Promise<GenericResponse> => {
-    const response = await http.post<GenericResponse>(authEndpoints.resetPassword, data)
-    return response.data
-  },
 
-  toggleFirstLogin: async (data: ToggleFirstLoginInput): Promise<GenericResponse> => {
-    const response = await http.post<GenericResponse>(authEndpoints.toggleFirstLogin, data)
-    return response.data
-  },
+  // forgotPasswordRequestOTP: async (data: ForgotPasswordRequestOTPInput): Promise<GenericResponse> => {
+  //   const response = await http.post<GenericResponse>(authEndpoints.forgotPasswordRequestOTP, data)
+  //   return response.data
+  // },
 
-  adminResetPassword: async (data: AdminResetPasswordInput): Promise<GenericResponse> => {
-    const response = await http.post<GenericResponse>(authEndpoints.adminResetPassword, data)
-    return response.data
-  },
+  // forgotPasswordVerifyOTP: async (data: ForgotPasswordVerifyOTPInput): Promise<GenericResponse> => {
+  //   const response = await http.post<GenericResponse>(authEndpoints.forgotPasswordVerifyOTP, data)
+  //   return response.data
+  // },
 
-  forgotPasswordRequestOTP: async (data: ForgotPasswordRequestOTPInput): Promise<GenericResponse> => {
-    const response = await http.post<GenericResponse>(authEndpoints.forgotPasswordRequestOTP, data)
-    return response.data
-  },
-
-  forgotPasswordVerifyOTP: async (data: ForgotPasswordVerifyOTPInput): Promise<GenericResponse> => {
-    const response = await http.post<GenericResponse>(authEndpoints.forgotPasswordVerifyOTP, data)
-    return response.data
-  },
-
-  forgotPasswordReset: async (data: ForgotPasswordResetInput): Promise<GenericResponse> => {
-    const response = await http.post<GenericResponse>(authEndpoints.forgotPasswordReset, data)
-    return response.data
-  }
+  // forgotPasswordReset: async (data: ForgotPasswordResetInput): Promise<GenericResponse> => {
+  //   const response = await http.post<GenericResponse>(authEndpoints.forgotPasswordReset, data)
+  //   return response.data
+  // }
 }

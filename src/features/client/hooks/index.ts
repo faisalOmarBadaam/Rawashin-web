@@ -1,10 +1,15 @@
 import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query'
 
 import type { PaginatedResponse } from '@/shared/types/BaseResponse'
-import type { AddClientRequest, BeneficiaryListParams } from '../types/params'
+import type { AddClientRequest, BeneficiaryListParams, ClientTransactionsParams } from '../types/params'
 import type { ClientType } from '@/shared/types/ClientType'
-import type { ClientListResponse, ClientLookupResponse, MerchantSubResponse } from '../types/responses'
-import { createClient, getClientDetails, getClients, getClientsLookup, getMerchantSubs, deleteMerchantSub, settleMerchantSub, updateClient, deleteClient, UpdateClientAccountStatus, ResetClientPassword, AssignClientCard } from '../api'
+import type {
+  ClientListResponse,
+  ClientLookupResponse,
+  ClientTransactionResponse,
+  MerchantSubResponse,
+} from '../types/responses'
+import { createClient, getClientDetails, getClientTransactions, getClients, getClientsLookup, getMerchantSubs, deleteMerchantSub, settleMerchantSub, updateClient, deleteClient, UpdateClientAccountStatus, ResetClientPassword, AssignClientCard } from '../api'
 import type { AccountStatus } from '../types'
 
 export function useClients(params?: BeneficiaryListParams) {
@@ -30,6 +35,18 @@ export function useMerchantSubs(id?: string) {
     queryKey: ['merchantSubs', id],
     queryFn: () => getMerchantSubs(id!),
     enabled: Boolean(id),
+  })
+}
+
+export function useClientTransactions(
+  clientId?: string,
+  params?: ClientTransactionsParams
+) {
+  return useQuery<PaginatedResponse<ClientTransactionResponse>, Error>({
+    queryKey: ['clientTransactions', clientId, params],
+    queryFn: () => getClientTransactions(clientId!, params!),
+    enabled: Boolean(clientId),
+    placeholderData: keepPreviousData,
   })
 }
 

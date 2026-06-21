@@ -32,3 +32,12 @@ export interface MerchantSubResponse {
   status: number
   totalAmount: number
 }
+
+export interface ClientTransactionResponse {
+  id: string
+  referenceId: string
+  amount: number
+  description?: string | null
+  createdAt: string
+  transactionType:number
+}
