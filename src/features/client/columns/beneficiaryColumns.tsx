@@ -6,12 +6,12 @@ import Typography from '@mui/material/Typography'
 
 import type { AccountStatus } from '../types'
 import type { ClientListResponse } from '../types/responses'
-import type { RowAction } from './RowActionsMenuButton'
 
 import {
   createClientActionsColumn,
   createClientAccountStatusColumn,
-} from './commonColumns'
+} from './CommonColumns'
+import type { RowAction } from '../components/RowActionsMenuButton'
 
 type BeneficiaryColumnsOptions = {
   onAccountStatusChange?: (

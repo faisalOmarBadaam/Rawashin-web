@@ -65,6 +65,7 @@ const ControlledAutocomplete = <
       <Autocomplete
         {...autocompleteProps}
         options={options}
+        
         value={field.value ?? null}
         loading={loading}
         disabled={disabled}

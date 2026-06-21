@@ -14,8 +14,8 @@ import QuerySelectFilter from '@/shared/components/ui/filters/QuerySelectFilter'
 import { ClientType } from '@/shared/types/ClientType'
 import type { ClientListResponse } from '@/features/client/types/responses'
 import { useClients } from '@/features/client/hooks'
-import usePartnerColumns from '@/features/client/components/PartnerColumns'
 import { accountStatusOptions } from '@/features/client/constants'
+import usePartnerColumns from '@/features/client/columns/PartnerColumns'
 
 export default function PartnerPage() {
   const [searchParams] = useSearchParams()
@@ -64,16 +64,7 @@ export default function PartnerPage() {
 
 
   const columns = usePartnerColumns({
-    editPath: (row) => String(row.id),
-
-    extraActions: [
-      {
-        label: 'عرض المستفيدين',
-        onClick: (row) => {
-          navigate(`${row.id}/beneficiaries`)
-        },
-      },
-    ],
+    editPath: (row) => String(row.id)
   })
 
   return (

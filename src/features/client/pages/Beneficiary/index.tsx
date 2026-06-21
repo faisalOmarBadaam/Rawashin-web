@@ -13,12 +13,12 @@ import QueryFiltersBar from '@/shared/components/ui/filters/QueryFiltersBar'
 import QuerySelectFilter from '@/shared/components/ui/filters/QuerySelectFilter'
 
 import { ClientType } from '@/shared/types/ClientType'
-import { useBeneficiaryColumns } from '../../components/beneficiaryColumns'
 import { useAssignClientCard, useClients } from '../../hooks'
 import type { ClientListResponse } from '../../types/responses'
 import { accountStatusOptions } from '../../constants'
 import AssignCardDialog from '../../components/AssignCardDialog'
 import { toast } from 'sonner'
+import { useBeneficiaryColumns } from '../../columns/beneficiaryColumns'
 
 type SelectedBeneficiary = {
   id: string

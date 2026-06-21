@@ -4,7 +4,7 @@ import ClientRowActionsMenuButton from '@/features/client/components/ClientRowAc
 import AccountStatusSelect from '@/features/client/components/AccountStatusSelect'
 
 import type { AccountStatus } from '../types'
-import type { RowAction } from './RowActionsMenuButton'
+import type { RowAction } from '../components/RowActionsMenuButton'
 
 type RowWithId = GridValidRowModel & {
   id: string

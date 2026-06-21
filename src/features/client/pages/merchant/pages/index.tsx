@@ -14,8 +14,8 @@ import QuerySelectFilter from '@/shared/components/ui/filters/QuerySelectFilter'
 import { ClientType } from '@/shared/types/ClientType'
 import type { ClientListResponse } from '@/features/client/types/responses'
 import { useClients } from '@/features/client/hooks'
-import useMerchantColumns from '@/features/client/components/merchantColumns'
 import { accountStatusOptions } from '@/features/client/constants'
+import useMerchantColumns from '@/features/client/columns/merchantColumns'
 
 export default function MerchantPage() {
   const [searchParams] = useSearchParams()

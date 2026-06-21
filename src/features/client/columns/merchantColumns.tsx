@@ -3,14 +3,14 @@ import type { GridColDef } from '@mui/x-data-grid'
 
 import type { AccountStatus } from '../types'
 import type { ClientListResponse } from '../types/responses'
-import type { RowAction } from './RowActionsMenuButton'
 
 import {
   createClientAccountStatusColumn,
   createClientActionsColumn,
-} from './commonColumns'
+} from './CommonColumns'
+import type { RowAction } from '../components/RowActionsMenuButton'
 
-type PartnerColumnsOptions = {
+type MerchantColumnsOptions = {
   onAccountStatusChanged?: (
     row: ClientListResponse,
     value: AccountStatus
@@ -20,16 +20,16 @@ type PartnerColumnsOptions = {
   editPath?: string | ((row: ClientListResponse) => string)
 }
 
-export function usePartnerColumns({
+export function useMerchantColumns({
   onAccountStatusChanged,
   extraActions,
   editPath,
-}: PartnerColumnsOptions = {}) {
+}: MerchantColumnsOptions = {}) {
   return useMemo<GridColDef<ClientListResponse>[]>(
     () => [
       {
-        field: 'partnerName',
-        headerName: 'الجهة',
+        field: 'merchantName',
+        headerName: 'نقطة البيع',
         flex: 1,
         valueGetter: (_value, row) => row.organizationName ?? row.fullName ?? '—',
       },
@@ -50,4 +50,4 @@ export function usePartnerColumns({
   )
 }
 
-export default usePartnerColumns
+export default useMerchantColumns
