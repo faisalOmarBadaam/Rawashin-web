@@ -59,6 +59,7 @@ export default function RowActionsMenuButton<TRow>({
       <Menu
         anchorEl={anchorEl}
         open={open}
+        disableScrollLock
         onClose={handleClose}
         onClick={(event) => event.stopPropagation()}
         anchorOrigin={{

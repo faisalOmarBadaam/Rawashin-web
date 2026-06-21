@@ -66,7 +66,6 @@ export default function PartnerPage() {
   const columns = usePartnerColumns({
     editPath: (row) => String(row.id),
 
-    // تقدر تضيف خيارات إضافية هنا إذا احتجت
     extraActions: [
       {
         label: 'عرض المستفيدين',

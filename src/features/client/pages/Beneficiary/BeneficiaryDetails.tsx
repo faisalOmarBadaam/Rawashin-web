@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import dayjs from 'dayjs'
 
@@ -14,12 +14,8 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 
-import type { ChipProps } from '@mui/material/Chip'
-
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import BadgeIcon from '@mui/icons-material/Badge'
-import ContactPhoneIcon from '@mui/icons-material/ContactPhone'
 import EditIcon from '@mui/icons-material/Edit'
 import HistoryIcon from '@mui/icons-material/History'
 import PersonIcon from '@mui/icons-material/Person'
@@ -30,6 +26,7 @@ import ClientTransactionsTable from '../../components/ClientTransactionsTable'
 import { DetailItem, InfoSection, TabPanel } from '../../components/ui'
 import { useClient } from '../../hooks'
 import PageDetailsHeader from '../../components/PageDetailsHeader'
+import { getAccountStatusInfo } from '../../utils/account-status'
 
 export default function BeneficiaryDetails() {
   const { id } = useParams<{ id: string }>()
@@ -40,40 +37,7 @@ export default function BeneficiaryDetails() {
   const beneficiaryQuery = useClient(id)
   const details = beneficiaryQuery.data
 
-  const accountStatus = useMemo<{
-    label: string
-    color: ChipProps['color']
-  }>(() => {
-    switch (details?.accountStatus) {
-      case 0:
-        return {
-          label: 'غير نشط',
-          color: 'default',
-        }
-
-      case 1:
-        return {
-          label: 'نشط',
-          color: 'success',
-        }
-
-      case 2:
-        return {
-          label: 'قيد الانتظار',
-          color: 'warning',
-        }
-
-      default:
-        return {
-          label:
-            details?.accountStatus !== undefined &&
-            details.accountStatus !== null
-              ? String(details.accountStatus)
-              : '—',
-          color: 'default',
-        }
-    }
-  }, [details?.accountStatus])
+  const accountStatus = getAccountStatusInfo(details?.accountStatus)
 
   const errorMessage =
     beneficiaryQuery.error instanceof Error
@@ -139,18 +103,17 @@ export default function BeneficiaryDetails() {
           <>
             <Button
               variant="outlined"
-              startIcon={<ArrowBackIcon />}
-              onClick={() => navigate(-1)}
-            >
-              العودة
-            </Button>
-
-            <Button
-              variant="contained"
               startIcon={<EditIcon />}
               onClick={() => navigate('edit')}
             >
               تعديل
+            </Button>
+             <Button
+              variant="outlined"
+              startIcon={<ArrowBackIcon />}
+              onClick={() => navigate(-1)}
+            >
+              العودة
             </Button>
           </>
         }
@@ -185,18 +148,6 @@ export default function BeneficiaryDetails() {
           />
 
           <Tab
-            icon={<ContactPhoneIcon />}
-            iconPosition="start"
-            label="التواصل"
-          />
-
-          <Tab
-            icon={<AccountBalanceIcon />}
-            iconPosition="start"
-            label="الحساب والمنظمة"
-          />
-
-          <Tab
             icon={<ReceiptLongIcon />}
             iconPosition="start"
             label="المعاملات"
@@ -220,10 +171,6 @@ export default function BeneficiaryDetails() {
                 value={details.fullName}
               />
 
-              <DetailItem
-                label="المعرف"
-                value={details.id}
-              />
 
               <DetailItem
                 label="الهوية الوطنية"
@@ -234,14 +181,6 @@ export default function BeneficiaryDetails() {
                 label="نوع الهوية"
                 value={details.nationalIdTypeName}
               />
-            </InfoSection>
-          </TabPanel>
-
-          <TabPanel value={activeTab} index={1}>
-            <InfoSection
-              title="بيانات التواصل"
-              description="بيانات الاتصال والعنوان المسجلة للمستفيد."
-            >
               <DetailItem
                 label="رقم الهاتف"
                 value={details.phoneNumber}
@@ -256,25 +195,6 @@ export default function BeneficiaryDetails() {
                 label="العنوان"
                 value={details.address}
               />
-            </InfoSection>
-          </TabPanel>
-
-          <TabPanel value={activeTab} index={2}>
-            <InfoSection
-              title="الحساب والمنظمة"
-              description="حالة الحساب والبيانات المرتبطة بالمنظمة والبطاقة."
-            >
-              <DetailItem
-                label="حالة الحساب"
-                value={
-                  <Chip
-                    size="small"
-                    label={accountStatus.label}
-                    color={accountStatus.color}
-                  />
-                }
-              />
-
               <DetailItem
                 label="الجهة"
                 value={details.parentClientName}
@@ -287,7 +207,7 @@ export default function BeneficiaryDetails() {
             </InfoSection>
           </TabPanel>
 
-          <TabPanel value={activeTab} index={3}>
+          <TabPanel value={activeTab} index={1}>
             <ClientTransactionsTable
               clientId={details.id}
               title="معاملات المستفيد"
@@ -295,7 +215,7 @@ export default function BeneficiaryDetails() {
             />
           </TabPanel>
 
-          <TabPanel value={activeTab} index={4}>
+          <TabPanel value={activeTab} index={2}>
             <Card
               variant="outlined"
               sx={{

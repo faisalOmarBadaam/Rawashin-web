@@ -27,7 +27,7 @@ export function DetailItem({ label, value }: { label: string; value?: ReactNode 
       <Typography variant="subtitle2" color="text.secondary">
         {label}
       </Typography>
-      <Typography variant="body1">{value ?? '—'}</Typography>
+      <Typography variant="body1">{value != null && value !== '' ? value : '—'}</Typography>
       <Divider sx={{ mt: 1 }} />
     </Box>
   )

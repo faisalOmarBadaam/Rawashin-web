@@ -14,12 +14,8 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 
-import type { ChipProps } from '@mui/material/Chip'
-
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import BadgeIcon from '@mui/icons-material/Badge'
-import ContactPhoneIcon from '@mui/icons-material/ContactPhone'
 import EditIcon from '@mui/icons-material/Edit'
 import GroupIcon from '@mui/icons-material/Group'
 import HistoryIcon from '@mui/icons-material/History'
@@ -35,41 +31,7 @@ import {
 } from '@/features/client/components/ui'
 import { useClient } from '@/features/client/hooks'
 import PageDetailsHeader from '@/features/client/components/PageDetailsHeader'
-
-type AccountStatusInfo = {
-  label: string
-  color: ChipProps['color']
-}
-
-function getAccountStatus(
-  status: number | null | undefined,
-): AccountStatusInfo {
-  switch (status) {
-    case 0:
-      return {
-        label: 'غير نشط',
-        color: 'default',
-      }
-
-    case 1:
-      return {
-        label: 'نشط',
-        color: 'success',
-      }
-
-    case 2:
-      return {
-        label: 'قيد الانتظار',
-        color: 'warning',
-      }
-
-    default:
-      return {
-        label: status != null ? String(status) : '—',
-        color: 'default',
-      }
-  }
-}
+import { getAccountStatusInfo } from '@/features/client/utils/account-status'
 
 export default function PartnerDetailsPage() {
   const { id } = useParams<{ id: string }>()
@@ -80,7 +42,7 @@ export default function PartnerDetailsPage() {
   const partnerQuery = useClient(id)
   const details = partnerQuery.data
 
-  const accountStatus = getAccountStatus(details?.accountStatus)
+  const accountStatus = getAccountStatusInfo(details?.accountStatus)
 
   const errorMessage =
     partnerQuery.error instanceof Error
@@ -142,18 +104,17 @@ export default function PartnerDetailsPage() {
           <>
             <Button
               variant="outlined"
-              startIcon={<ArrowBackIcon />}
-              onClick={() => navigate(-1)}
-            >
-              العودة
-            </Button>
-
-            <Button
-              variant="contained"
               startIcon={<EditIcon />}
               onClick={() => navigate('edit')}
             >
               تعديل
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<ArrowBackIcon />}
+              onClick={() => navigate(-1)}
+            >
+              العودة
             </Button>
           </>
         }
@@ -188,18 +149,6 @@ export default function PartnerDetailsPage() {
           />
 
           <Tab
-            icon={<ContactPhoneIcon />}
-            iconPosition="start"
-            label="التواصل"
-          />
-
-          <Tab
-            icon={<AccountBalanceIcon />}
-            iconPosition="start"
-            label="الحساب والمنظمة"
-          />
-
-          <Tab
             icon={<GroupIcon />}
             iconPosition="start"
             label="التابعين"
@@ -229,10 +178,6 @@ export default function PartnerDetailsPage() {
                 value={details.fullName}
               />
 
-              <DetailItem
-                label="المعرف"
-                value={details.id}
-              />
 
               <DetailItem
                 label="الهوية الوطنية"
@@ -243,14 +188,6 @@ export default function PartnerDetailsPage() {
                 label="نوع الهوية"
                 value={details.nationalIdTypeName}
               />
-            </InfoSection>
-          </TabPanel>
-
-          <TabPanel value={activeTab} index={1}>
-            <InfoSection
-              title="بيانات التواصل"
-              description="بيانات الاتصال والعنوان المسجلة للشريك."
-            >
               <DetailItem
                 label="رقم الهاتف"
                 value={details.phoneNumber}
@@ -265,38 +202,14 @@ export default function PartnerDetailsPage() {
                 label="العنوان"
                 value={details.address}
               />
-            </InfoSection>
-          </TabPanel>
-
-          <TabPanel value={activeTab} index={2}>
-            <InfoSection
-              title="الحساب والمنظمة"
-              description="حالة الحساب والبيانات المرتبطة بالمنظمة والبطاقة."
-            >
-              <DetailItem
-                label="حالة الحساب"
-                value={
-                  <Chip
-                    size="small"
-                    label={accountStatus.label}
-                    color={accountStatus.color}
-                  />
-                }
-              />
-
               <DetailItem
                 label="الجهة"
                 value={details.organizationName}
               />
-
-              <DetailItem
-                label="استلم البطاقة"
-                value={details.isReceivedCard ? 'نعم' : 'لا'}
-              />
             </InfoSection>
           </TabPanel>
-
-          <TabPanel value={activeTab} index={3}>
+          
+          <TabPanel value={activeTab} index={1}>
             <Card
               variant="outlined"
               sx={{
@@ -326,7 +239,7 @@ export default function PartnerDetailsPage() {
             </Card>
           </TabPanel>
 
-          <TabPanel value={activeTab} index={4}>
+          <TabPanel value={activeTab} index={2}>
             <ClientTransactionsTable
               clientId={details.id}
               title="معاملات الشريك"
@@ -363,8 +276,8 @@ export default function PartnerDetailsPage() {
               </CardContent>
             </Card>
           </TabPanel>
-        </Box>
+        </Box>  
       </Paper>
     </Box>
   )
-}
+  }

@@ -14,13 +14,9 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 
-import type { ChipProps } from '@mui/material/Chip'
-
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircle'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import BadgeIcon from '@mui/icons-material/Badge'
-import ContactPhoneIcon from '@mui/icons-material/ContactPhone'
 import EditIcon from '@mui/icons-material/Edit'
 import GroupIcon from '@mui/icons-material/Group'
 import HistoryIcon from '@mui/icons-material/History'
@@ -46,6 +42,7 @@ import {
   useMerchantSubs,
   useSettleMerchantSub,
 } from '@/features/client/hooks'
+import { getAccountStatusInfo } from '@/features/client/utils/account-status'
 
 import type { MerchantCommissionDialogValues } from '@/features/client/components/MerchantCommissionDialog'
 import type { MerchantSubResponse } from '@/features/client/types/responses'
@@ -91,39 +88,6 @@ export default function MerchantDetailsPage() {
 
     return [...detailsCashiers, ...subsCashiers]
   }, [details, merchantSubsQuery.data])
-
-  const getAccountStatus = (
-  status: number | null | undefined,
-): {
-  label: string
-  color: ChipProps['color']
-} => {
-  switch (status) {
-    case 0:
-      return {
-        label: 'غير نشط',
-        color: 'default',
-      }
-
-    case 1:
-      return {
-        label: 'نشط',
-        color: 'success',
-      }
-
-    case 2:
-      return {
-        label: 'قيد الانتظار',
-        color: 'warning',
-      }
-
-    default:
-      return {
-        label: status != null ? String(status) : '—',
-        color: 'default',
-      }
-  }
-}
 
   const errorMessage =
     merchantQuery.error instanceof Error
@@ -214,25 +178,12 @@ export default function MerchantDetailsPage() {
         status={
           <Chip
             size="small"
-            label={getAccountStatus(details?.accountStatus).label}
-            color={getAccountStatus(details?.accountStatus).color}
+            label={getAccountStatusInfo(details?.accountStatus).label}
+            color={getAccountStatusInfo(details?.accountStatus).color}
           />
         }
         actions={
           <>
-            <Button
-              variant="outlined"
-              startIcon={<ArrowBackIcon />}
-              onClick={() => navigate(-1)}
-              sx={{
-                borderRadius: 2,
-                fontWeight: 700,
-                whiteSpace: 'nowrap',
-              }}
-            >
-              العودة
-            </Button>
-
             <Button
               variant="contained"
               startIcon={<AddCircleOutlineIcon />}
@@ -250,8 +201,7 @@ export default function MerchantDetailsPage() {
             </Button>
 
             <Button
-              variant="contained"
-              color="secondary"
+              variant="outlined"
               startIcon={<EditIcon />}
               onClick={() => navigate('edit')}
               sx={{
@@ -262,6 +212,19 @@ export default function MerchantDetailsPage() {
               }}
             >
               تعديل
+            </Button>
+
+              <Button
+              variant="outlined"
+              startIcon={<ArrowBackIcon />}
+              onClick={() => navigate(-1)}
+              sx={{
+                borderRadius: 2,
+                fontWeight: 700,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              العودة
             </Button>
           </>
         }
@@ -293,18 +256,6 @@ export default function MerchantDetailsPage() {
             icon={<BadgeIcon />}
             iconPosition="start"
             label="البيانات الأساسية"
-          />
-
-          <Tab
-            icon={<ContactPhoneIcon />}
-            iconPosition="start"
-            label="التواصل"
-          />
-
-          <Tab
-            icon={<AccountBalanceIcon />}
-            iconPosition="start"
-            label="الحساب والمنظمة"
           />
 
           <Tab
@@ -344,11 +295,6 @@ export default function MerchantDetailsPage() {
               />
 
               <DetailItem
-                label="المعرف"
-                value={details.id}
-              />
-
-              <DetailItem
                 label="الهوية الوطنية"
                 value={details.nationalId}
               />
@@ -357,14 +303,6 @@ export default function MerchantDetailsPage() {
                 label="نوع الهوية"
                 value={details.nationalIdTypeName}
               />
-            </InfoSection>
-          </TabPanel>
-
-          <TabPanel value={activeTab} index={1}>
-            <InfoSection
-              title="بيانات التواصل"
-              description="بيانات الاتصال والعنوان المسجلة للتاجر."
-            >
               <DetailItem
                 label="رقم الهاتف"
                 value={details.phoneNumber}
@@ -379,21 +317,13 @@ export default function MerchantDetailsPage() {
                 label="العنوان"
                 value={details.address}
               />
-            </InfoSection>
-          </TabPanel>
-
-          <TabPanel value={activeTab} index={2}>
-            <InfoSection
-              title="الحساب والمنظمة"
-              description="حالة الحساب والبيانات المرتبطة بالمنظمة والبطاقة."
-            >
               <DetailItem
                 label="حالة الحساب"
                 value={
                   <Chip
                     size="small"
-                    label={getAccountStatus(details?.accountStatus).label}
-                    color={getAccountStatus(details?.accountStatus).color}
+                    label={getAccountStatusInfo(details?.accountStatus).label}
+                    color={getAccountStatusInfo(details?.accountStatus).color}
                   />
                 }
               />
@@ -405,7 +335,7 @@ export default function MerchantDetailsPage() {
             </InfoSection>
           </TabPanel>
 
-          <TabPanel value={activeTab} index={3}>
+          <TabPanel value={activeTab} index={1}>
             <CashiersSection
               cashiers={cashiers}
               onAdd={() => navigate('cashiers/new')}
@@ -430,7 +360,7 @@ export default function MerchantDetailsPage() {
             />
           </TabPanel>
 
-          <TabPanel value={activeTab} index={4}>
+          <TabPanel value={activeTab} index={2}>
             <Card
               variant="outlined"
               sx={{

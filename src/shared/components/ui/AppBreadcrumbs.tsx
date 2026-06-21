@@ -28,11 +28,13 @@ const routeLabels = new Map<string, string>([
   ['/merchants/new', 'إضافة تاجر'],
   ['/partners', 'الشركاء'],
   ['/partners/new', 'إضافة شريك'],
+  ['/requests', 'الطلبات'],
   ['/settlements', 'التسويات المالية'],
   ['/support', 'الدعم الفني'],
   ['/audit-logs', 'سجل المراجعة'],
   ['/users', 'إدارة المستخدمين'],
   ['/settings', 'الإعدادات'],
+
 ])
 
 function joinRoutePath(parentPath: string, childPath: string) {
