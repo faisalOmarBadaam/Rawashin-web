@@ -1,4 +1,4 @@
-
+import * as React from 'react'
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import { useSearchParams } from 'react-router'
@@ -14,8 +14,9 @@ type QuerySelectFilterProps = {
   options: readonly QuerySelectOption[]
   allLabel?: string
   width?: number
-
   pageKey?: string
+
+  defaultValue?: number | string
 }
 
 export default function QuerySelectFilter({
@@ -24,11 +25,41 @@ export default function QuerySelectFilter({
   options,
   width = 150,
   allLabel = 'الكل',
-  pageKey = 'page'
+  pageKey = 'page',
+  defaultValue
 }: QuerySelectFilterProps) {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const value = searchParams.get(queryKey) ?? ''
+  const hasDefaultValue =
+    defaultValue !== undefined && defaultValue !== null
+
+  const normalizedDefaultValue = hasDefaultValue
+    ? String(defaultValue)
+    : ''
+
+  const queryValue = searchParams.get(queryKey)
+
+  const value = queryValue ?? normalizedDefaultValue
+
+  React.useEffect(() => {
+    if (!hasDefaultValue || searchParams.has(queryKey)) {
+      return
+    }
+
+    const nextParams = new URLSearchParams(searchParams)
+
+    nextParams.set(queryKey, normalizedDefaultValue)
+    nextParams.delete(pageKey)
+
+    setSearchParams(nextParams, { replace: true })
+  }, [
+    hasDefaultValue,
+    normalizedDefaultValue,
+    pageKey,
+    queryKey,
+    searchParams,
+    setSearchParams
+  ])
 
   const handleChange = (nextValue: string) => {
     const nextParams = new URLSearchParams(searchParams)
@@ -46,45 +77,55 @@ export default function QuerySelectFilter({
 
   return (
     <TextField
-  select
-  label={label}
-  value={value}
-  onChange={(event) => handleChange(event.target.value)}
-  size="small"
-  slotProps={{
-    inputLabel: {
-      shrink: true
-    },
-    select: {
-  displayEmpty: true,
-  MenuProps: {
-    disableScrollLock: true
-  },
-  renderValue: (selected) => {
-    if (selected === '') return allLabel
+      select
+      label={label}
+      value={value}
+      onChange={(event) => handleChange(event.target.value)}
+      size="small"
+      slotProps={{
+        inputLabel: {
+          shrink: true
+        },
+        select: {
+          displayEmpty: true,
+          MenuProps: {
+            disableScrollLock: true
+          },
+          renderValue: (selected) => {
+            if (selected === '') {
+              return allLabel
+            }
 
-    const selectedOption = options.find(
-      (option) => String(option.value) === String(selected)
-    )
+            const selectedOption = options.find(
+              (option) =>
+                String(option.value) === String(selected)
+            )
 
-    return selectedOption?.label ?? ''
-  }
+            return selectedOption?.label ?? ''
+          }
+        }
+      }}
+      sx={{
+        width: {
+          xs: '100%',
+          sm: width
+        }
+      }}
+    >
+      {!hasDefaultValue && (
+        <MenuItem value="">
+          {allLabel}
+        </MenuItem>
+      )}
 
-  }
-  }}
-  sx={{
-    width: { xs: '100%', sm: width }
-  }}
->
-  <MenuItem value="">
-    {allLabel}
-  </MenuItem>
-
-  {options.map((option) => (
-    <MenuItem key={option.value} value={option.value}>
-      {option.label}
-    </MenuItem>
-  ))}
-</TextField>
+      {options.map((option) => (
+        <MenuItem
+          key={String(option.value)}
+          value={String(option.value)}
+        >
+          {option.label}
+        </MenuItem>
+      ))}
+    </TextField>
   )
 }

@@ -9,7 +9,6 @@ import SupportPage from '@/features/support/pages'
 import SettlementsPage from '@/features/settlements/pages'
 import SettlementDetailsPage from '@/features/settlements/pages/SettlementDetails'
 import RequestsPage from '@/pages/RequestsPage'
-import UserManagementPage from '@/pages/UserManagementPage'
 
 import BeneficiaryPage from '@/features/client/pages/Beneficiary'
 import BeneficiaryDetailsPage from '@/features/client/pages/Beneficiary/BeneficiaryDetails'
@@ -21,6 +20,8 @@ import CreateCashierPage from '@/features/client/pages/merchant/pages/CashierFor
 import PartnerFormPage from '@/features/client/pages/partner/pages/PartnerForm'
 import PartnerPage from '@/features/client/pages/partner/pages'
 import PartnerDetailsPage from '@/features/client/pages/partner/pages/PartnerDetails'
+import UsersManagementPage from '@/features/user-mangment/pages'
+import AddUserForm from '@/features/user-mangment/pages/AddUserForm'
 
 export type RouteAccess = 'public' | 'private'
 
@@ -160,8 +161,22 @@ export const appRoutes: AppRoute[] = [
   },
   {
     path: '/users',
-    element: <UserManagementPage />,
-    access: 'private'
+    element: <Outlet />,
+    access: 'private',
+    children: [
+      {
+        index: true,
+        element: <UsersManagementPage />,
+      },
+      {
+        path: 'new',
+        element: <AddUserForm />,
+      },
+      {
+        path: ':id/edit',
+        element: <AddUserForm />,
+      },
+    ],
   },
   {
     path: '/settings',
