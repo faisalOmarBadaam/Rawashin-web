@@ -7,7 +7,7 @@ import type { ClientListResponse } from '../types/responses'
 import {
   createClientAccountStatusColumn,
   createClientActionsColumn,
-} from './CommonColumns'
+} from './commonColumns'
 import type { RowAction } from '../components/RowActionsMenuButton'
 
 type MerchantColumnsOptions = {

@@ -4,7 +4,7 @@ import type { GridColDef } from '@mui/x-data-grid'
 import type { AccountStatus } from '../types'
 import type { ClientListResponse } from '../types/responses'
 import type { RowAction } from '../components/RowActionsMenuButton'
-import { createClientAccountStatusColumn, createClientActionsColumn } from './CommonColumns'
+import { createClientAccountStatusColumn, createClientActionsColumn } from './commonColumns'
 
 
 type PartnerColumnsOptions = {

@@ -15,7 +15,7 @@ import { ClientType } from '@/shared/types/ClientType'
 import type { ClientListResponse } from '@/features/client/types/responses'
 import { useClients } from '@/features/client/hooks'
 import { accountStatusOptions } from '@/features/client/constants'
-import usePartnerColumns from '@/features/client/columns/PartnerColumns'
+import usePartnerColumns from '@/features/client/columns/partnerColumns'
 
 export default function PartnerPage() {
   const [searchParams] = useSearchParams()
