@@ -22,6 +22,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 
 
+import ClientCreditAccountSummary from '../../components/ClientCreditAccountSummary'
 import ClientTransactionsTable from '../../components/ClientTransactionsTable'
 import { DetailItem, InfoSection, TabPanel } from '../../components/ui'
 import { useClient } from '../../hooks'
@@ -118,6 +119,8 @@ export default function BeneficiaryDetails() {
           </>
         }
       />
+
+      <ClientCreditAccountSummary clientId={details.id} />
 
       <Paper
         elevation={0}

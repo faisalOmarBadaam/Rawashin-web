@@ -23,6 +23,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 
 
+import ClientCreditAccountSummary from '@/features/client/components/ClientCreditAccountSummary'
 import ClientTransactionsTable from '@/features/client/components/ClientTransactionsTable'
 import {
   DetailItem,
@@ -119,6 +120,8 @@ export default function PartnerDetailsPage() {
           </>
         }
       />
+
+      <ClientCreditAccountSummary clientId={details.id} />
 
       <Paper
         elevation={0}

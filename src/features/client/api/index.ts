@@ -9,6 +9,10 @@ const ClientEndpoints = {
   create: 'auths/register',
   lookup: 'clients/lookup',
   byId: (id: string) => `clients/${id}`,
+  creditAccountTotalAmount: (clientId: string) =>
+    `clients/${clientId}/credit-account/total-amount`,
+  creditAccountDebtAmount: (clientId: string) =>
+    `clients/${clientId}/credit-account/debt-amount`,
   merchantSubs: (id: string) => `merchants/${id}/subs`,
   merchantSub: (merchantId: string, subMerchantId: string) => `merchants/${merchantId}/subs/${subMerchantId}`,
   merchantSubSettlement: (merchantId: string, subMerchantId: string) =>
@@ -47,6 +51,26 @@ export async function getMerchantSubs(
 ): Promise<MerchantSubResponse[]> {
   const response = await http.get<MerchantSubResponse[]>(
     ClientEndpoints.merchantSubs(merchantId)
+  )
+
+  return response.data
+}
+
+export async function getClientCreditAccountTotalAmount(
+  clientId: string,
+): Promise<number> {
+  const response = await http.get<number>(
+    ClientEndpoints.creditAccountTotalAmount(clientId),
+  )
+
+  return response.data
+}
+
+export async function getClientCreditAccountDebtAmount(
+  clientId: string,
+): Promise<number> {
+  const response = await http.get<number>(
+    ClientEndpoints.creditAccountDebtAmount(clientId),
   )
 
   return response.data

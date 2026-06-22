@@ -8,7 +8,6 @@ import StatisticsDashboard from '@/features/statistics/pages/StatisticsDashboard
 import SupportPage from '@/features/support/pages'
 import SettlementsPage from '@/features/settlements/pages'
 import SettlementDetailsPage from '@/features/settlements/pages/SettlementDetails'
-import AuditLogPage from '@/pages/AuditLogPage'
 import RequestsPage from '@/pages/RequestsPage'
 import UserManagementPage from '@/pages/UserManagementPage'
 
@@ -157,11 +156,6 @@ export const appRoutes: AppRoute[] = [
   {
     path: '/support',
     element: <SupportPage />,
-    access: 'private'
-  },
-  {
-    path: '/audit-logs',
-    element: <AuditLogPage />,
     access: 'private'
   },
   {

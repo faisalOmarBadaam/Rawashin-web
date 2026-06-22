@@ -25,6 +25,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 
 
+import ClientCreditAccountSummary from '@/features/client/components/ClientCreditAccountSummary'
 import ClientTransactionsTable from '@/features/client/components/ClientTransactionsTable'
 import MerchantCommissionDialog from '@/features/client/components/MerchantCommissionDialog'
 import {
@@ -229,6 +230,8 @@ export default function MerchantDetailsPage() {
           </>
         }
       />
+
+      <ClientCreditAccountSummary clientId={details.id} />
 
       <Paper
         elevation={0}

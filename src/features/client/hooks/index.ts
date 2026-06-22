@@ -9,7 +9,7 @@ import type {
   ClientTransactionResponse,
   MerchantSubResponse,
 } from '../types/responses'
-import { createClient, getClientDetails, getClientTransactions, getClients, getClientsLookup, getMerchantSubs, deleteMerchantSub, settleMerchantSub, updateClient, deleteClient, UpdateClientAccountStatus, ResetClientPassword, AssignClientCard } from '../api'
+import { createClient, getClientCreditAccountDebtAmount, getClientCreditAccountTotalAmount, getClientDetails, getClientTransactions, getClients, getClientsLookup, getMerchantSubs, deleteMerchantSub, settleMerchantSub, updateClient, deleteClient, UpdateClientAccountStatus, ResetClientPassword, AssignClientCard } from '../api'
 import type { AccountStatus } from '../types'
 
 export function useClients(params?: BeneficiaryListParams) {
@@ -35,6 +35,22 @@ export function useMerchantSubs(id?: string) {
     queryKey: ['merchantSubs', id],
     queryFn: () => getMerchantSubs(id!),
     enabled: Boolean(id),
+  })
+}
+
+export function useClientCreditAccountTotalAmount(clientId?: string) {
+  return useQuery<number, Error>({
+    queryKey: ['clientCreditAccountTotalAmount', clientId],
+    queryFn: () => getClientCreditAccountTotalAmount(clientId!),
+    enabled: Boolean(clientId),
+  })
+}
+
+export function useClientCreditAccountDebtAmount(clientId?: string) {
+  return useQuery<number, Error>({
+    queryKey: ['clientCreditAccountDebtAmount', clientId],
+    queryFn: () => getClientCreditAccountDebtAmount(clientId!),
+    enabled: Boolean(clientId),
   })
 }
 

@@ -7,7 +7,6 @@ import HandshakeIcon from '@mui/icons-material/Handshake'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import SupportAgentIcon from '@mui/icons-material/SupportAgent'
-import HistoryIcon from '@mui/icons-material/History'
 import PeopleIcon from '@mui/icons-material/People'
 import SettingsIcon from '@mui/icons-material/Settings'
 
@@ -66,11 +65,6 @@ export const mainListItems: SidebarItem[] = [
     path: '/support',
     icon: <SupportAgentIcon />
   },
-  {
-    text: 'سجل التدقيق',
-    path: '/audit-logs',
-    icon: <HistoryIcon />
-  }
 ]
 
 export const secondaryListItems: SidebarItem[] = [
