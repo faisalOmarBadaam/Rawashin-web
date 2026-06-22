@@ -1,11 +1,11 @@
 import type { ClientListResponse } from "@/features/client/types/responses"
-import type { FormValues } from "../pages/MerchantForm"
+import type { MerchantFormValues } from "../schema"
 
 
 
 export const mapMerchantToFormValues = (
   Client: ClientListResponse,
-): FormValues => {
+): MerchantFormValues => {
   return {
     FirstName: Client.firstName ?? '',
     SecondName: Client.secondName ?? '',

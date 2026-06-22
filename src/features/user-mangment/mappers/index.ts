@@ -1,10 +1,10 @@
 import type { ClientListResponse } from '@/features/client/types/responses'
+import type { UserFormValues } from '../schema'
 
-import type { FormValues } from '../pages/AddUserForm'
 
 export const mapUserToFormValues = (
 	client: ClientListResponse,
-): FormValues => {
+): UserFormValues => {
 	return {
 		FirstName: client.firstName ?? '',
 		SecondName: client.secondName ?? '',

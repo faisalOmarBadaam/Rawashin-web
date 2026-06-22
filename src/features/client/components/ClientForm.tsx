@@ -24,7 +24,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import type { NationalIdTypeOption } from '../types'
-
+  
 type CommonClientFormValues = FieldValues & {
   FirstName?: string
   SecondName?: string

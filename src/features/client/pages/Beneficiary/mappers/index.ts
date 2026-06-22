@@ -1,12 +1,12 @@
 import type { ClientListResponse, ClientLookupResponse } from "@/features/client/types/responses"
-import type { FormValues } from "../BeneficiaryForm"
+import type { BeneficiaryFormValues } from "../schema"
 
 
 
 export const mapBeneficiaryToFormValues = (
   Client: ClientListResponse,
   parentOptions: ClientLookupResponse[] = [],
-): FormValues => {
+): BeneficiaryFormValues => {
   const parentClient =
     parentOptions.find(option => option.id === Client.parentClientId) ?? null
 

@@ -4,35 +4,19 @@ import {
   baseClientSchema,
 } from '@/features/client/schema/baseschema'
 
-export const merchantBaseSchema =
+export const userBaseSchema =
   baseClientSchema.extend({
     Password: z.string().optional(),
-
-    NationalIdType: z
-      .number({
-        message: 'نوع الهوية مطلوب',
-      })
-      .int('نوع الهوية غير صحيح')
-      .positive('نوع الهوية مطلوب'),
-
-    OrganizationName: z
-      .string()
-      .trim()
-      .min(1, 'اسم المنشأة مطلوب')
-      .max(
-        150,
-        'اسم المنشأة يجب ألا يتجاوز 150 حرفًا',
-      ),
   })
 
-export type MerchantFormValues = z.infer<
-  typeof merchantBaseSchema
+export type UserFormValues = z.infer<
+  typeof userBaseSchema
 >
 
-export function getMerchantFormSchema(
+export function getUserFormSchema(
   isEdit: boolean,
 ) {
-  return merchantBaseSchema.superRefine(
+  return userBaseSchema.superRefine(
     (values, context) => {
       if (isEdit) return
 

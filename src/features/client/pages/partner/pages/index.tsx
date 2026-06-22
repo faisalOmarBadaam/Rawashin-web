@@ -64,7 +64,7 @@ export default function PartnerPage() {
 
 
   const columns = usePartnerColumns({
-    editPath: (row) => String(row.id)
+    editPath: (row) => `${String(row.id)}/edit`,
   })
 
   return (

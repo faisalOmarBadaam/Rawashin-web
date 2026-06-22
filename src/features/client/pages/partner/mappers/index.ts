@@ -1,11 +1,11 @@
 import type { ClientListResponse } from "@/features/client/types/responses"
-import type { FormValues } from "../pages/PartnerForm"
+import type { PartnerFormValues } from "../schema"
 
 
 
 export const mapPartnerToFormValues = (
   Client: ClientListResponse,
-): FormValues => {
+): PartnerFormValues => {
   return {
     FirstName: Client.firstName ?? '',
     SecondName: Client.secondName ?? '',

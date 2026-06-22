@@ -65,22 +65,7 @@ export default function MerchantPage() {
 
 
   const columns = useMerchantColumns({
-    editPath: (row) => String(row.id),
-
-    extraActions: [
-      {
-        label: 'عرض الاشتراكات',
-        onClick: (row) => {
-          navigate(`${row.id}/subscriptions`)
-        },
-      },
-      {
-        label: 'عرض العمليات',
-        onClick: (row) => {
-          navigate(`${row.id}/transactions`)
-        },
-      },
-    ],
+    editPath: (row) => `${String(row.id)}/edit`,
   })
 
   return (

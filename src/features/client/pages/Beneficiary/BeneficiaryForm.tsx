@@ -1,20 +1,43 @@
 import { useEffect, useMemo } from 'react'
-import { useParams, useNavigate } from 'react-router'
+import {
+  useNavigate,
+  useParams,
+} from 'react-router'
 import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 
-import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-
+import Typography from '@mui/material/Typography'
 
 import ControlledAutocomplete from '@/shared/components/ui/ControlledAutocomplete'
 import { ClientType } from '@/shared/types/ClientType'
 import { HADHRAMAUT_CITIES } from '@/features/client/constants'
-import { mapBeneficiaryToFormValues } from './mappers'
 import { applyServerErrors } from '@/lib/apply-server-errors'
 import { isServerProblemDetailsError } from '@/shared/apis/server-problem-details'
-import { useClient, useClientLookup, useCreateClient, useUpdateClient } from '../../hooks'
-import type { ClientLookupResponse } from '../../types/responses'
+
+import { mapBeneficiaryToFormValues } from './mappers'
+
+import {
+  getBeneficiaryFormSchema,
+  type BeneficiaryFormValues,
+} from './schema'
+
+import {
+  useClient,
+  useClientLookup,
+  useCreateClient,
+  useUpdateClient,
+} from '../../hooks'
+
+import type {
+  ClientLookupResponse,
+} from '../../types/responses'
+
+import {
+  INDIVIDUAL_NATIONAL_ID_TYPE_OPTIONS,
+} from '../../types'
+
 import {
   ClientAddressField,
   ClientCitySelectField,
@@ -27,53 +50,52 @@ import {
   SectionDivider,
   SectionTitle,
 } from '../../components/ClientForm'
-import { INDIVIDUAL_NATIONAL_ID_TYPE_OPTIONS } from '../../types'
 
-export type FormValues = {
-  FirstName: string
-  SecondName: string
-  ThirdName: string
-  LastName: string
-  NationalId?: string
-  Password?: string
-  PhoneNumber?: string
-  Address?: string
-  City: string
-  NationalIdType?: number | null
-  ParentClientId?: ClientLookupResponse | null
-}
-
-const EMPTY_VALUES: FormValues = {
+const EMPTY_VALUES: BeneficiaryFormValues = {
   FirstName: '',
-  SecondName : '',
+  SecondName: '',
   ThirdName: '',
   LastName: '',
   NationalId: '',
-  Password: '',
   PhoneNumber: '',
   Address: '',
   City: '',
   NationalIdType: null,
+
+  Password: '',
   ParentClientId: null,
 }
 
 export default function BeneficiaryForm() {
-  const { id } = useParams() as { id?: string }
-  const isEdit = Boolean(id)
+  const { id } = useParams<{
+    id?: string
+  }>()
 
+  const isEdit = Boolean(id)
   const navigate = useNavigate()
 
-  const { data: existing, isLoading: isLoadingBeneficiary } = useClient(id)
+  const schema = useMemo(
+    () => getBeneficiaryFormSchema(isEdit),
+    [isEdit],
+  )
 
-  const { data: beneficiaryLookupOptions, isLoading: isLoadingBeneficiaryLookup } =
-    useClientLookup(ClientType.Partner)
+  const {
+    data: existing,
+    isLoading: isLoadingBeneficiary,
+  } = useClient(id)
+
+  const {
+    data: beneficiaryLookupOptions,
+    isLoading:
+      isLoadingBeneficiaryLookup,
+  } = useClientLookup(ClientType.Partner)
 
   const createMutation = useCreateClient()
   const updateMutation = useUpdateClient()
 
   const beneficiaryOptions = useMemo(
     () => beneficiaryLookupOptions ?? [],
-    [beneficiaryLookupOptions]
+    [beneficiaryLookupOptions],
   )
 
   const {
@@ -82,8 +104,12 @@ export default function BeneficiaryForm() {
     reset,
     setError,
     clearErrors,
-    formState: { errors, isSubmitting },
-  } = useForm<FormValues>({
+    formState: {
+      errors,
+      isSubmitting,
+    },
+  } = useForm<BeneficiaryFormValues>({
+    resolver: zodResolver(schema),
     defaultValues: EMPTY_VALUES,
   })
 
@@ -93,12 +119,25 @@ export default function BeneficiaryForm() {
       return
     }
 
-    if (existing) {
-      reset(mapBeneficiaryToFormValues(existing, beneficiaryOptions))
-    }
-  }, [isEdit, existing, beneficiaryOptions, reset])
+    if (!existing) return
 
-  const onSubmit = async (values: FormValues) => {
+    const formValues =
+      mapBeneficiaryToFormValues(
+        existing,
+        beneficiaryOptions,
+      )
+
+    reset(formValues)
+  }, [
+    isEdit,
+    existing,
+    beneficiaryOptions,
+    reset,
+  ])
+
+  const onSubmit = async (
+    values: BeneficiaryFormValues,
+  ) => {
     clearErrors()
 
     const payload = {
@@ -106,91 +145,181 @@ export default function BeneficiaryForm() {
       SecondName: values.SecondName,
       ThirdName: values.ThirdName,
       LastName: values.LastName,
-      NationalId: values.NationalId,
-      PhoneNumber: values.PhoneNumber,
-      Address: values.Address,
+
+      NationalId:
+        values.NationalId || undefined,
+
+      PhoneNumber:
+        values.PhoneNumber || undefined,
+
+      Address:
+        values.Address || undefined,
+
       City: values.City,
-      NationalIdType: values.NationalIdType ?? undefined,
-      ParentClientId: values.ParentClientId?.id,
+
+      NationalIdType:
+        values.NationalIdType ?? undefined,
+
+      ParentClientId:
+        values.ParentClientId?.id,
+
       ClientType: ClientType.Client,
-      ...(!isEdit ? { Password: values.Password } : {}),
+
+      /**
+       * كلمة المرور تُرسل فقط
+       * عند إضافة مستفيد جديد.
+       */
+      ...(!isEdit
+        ? {
+            Password: values.Password,
+          }
+        : {}),
     }
-    
+
     try {
-      await (isEdit && id
-        ? updateMutation.mutateAsync({ id, payload })
-        : createMutation.mutateAsync(payload))
+      if (isEdit && id) {
+        await updateMutation.mutateAsync({
+          id,
+          payload,
+        })
+      } else {
+        await createMutation.mutateAsync(
+          payload,
+        )
+      }
 
-      toast.success(isEdit ? 'تم التعديل بنجاح' : 'تم الحفظ بنجاح')
-      navigate(!isEdit ? '/beneficiaries' : '/beneficiaries/' + id)
+      toast.success(
+        isEdit
+          ? 'تم التعديل بنجاح'
+          : 'تم الحفظ بنجاح',
+      )
+
+      navigate(
+        isEdit
+          ? `/beneficiaries/${id}`
+          : '/beneficiaries',
+      )
     } catch (error) {
-        console.error('SAVE ERROR:', error)
-      if (!isServerProblemDetailsError(error)) return
+      console.error(
+        'SAVE ERROR:',
+        error,
+      )
 
-      applyServerErrors<FormValues>(
+      if (
+        !isServerProblemDetailsError(error)
+      ) {
+        toast.error(
+          'حدث خطأ أثناء حفظ البيانات',
+        )
+
+        return
+      }
+
+      applyServerErrors<BeneficiaryFormValues>(
         error.errors,
         setError,
       )
     }
   }
 
-  const isPageLoading = isLoadingBeneficiary
-  const isSaving = isSubmitting || createMutation.isPending || updateMutation.isPending
+  const isPageLoading =
+    isEdit && isLoadingBeneficiary
+
+  const isSaving =
+    isSubmitting ||
+    createMutation.isPending ||
+    updateMutation.isPending
 
   return (
     <ClientFormLayout
-      title={isEdit ? 'تعديل المستفيد' : 'إضافة مستفيد'}
+      title={
+        isEdit
+          ? 'تعديل المستفيد'
+          : 'إضافة مستفيد'
+      }
       subtitle="املأ بيانات المستفيد ثم اضغط حفظ"
       isLoading={isPageLoading}
       isSaving={isSaving}
       onSubmit={handleSubmit(onSubmit)}
       onCancel={() => navigate(-1)}
     >
-      <SectionTitle>بيانات المستفيد</SectionTitle>
+      <SectionTitle>
+        بيانات المستفيد
+      </SectionTitle>
 
-      <ClientNameFields control={control} disabled={isSaving} />
+      <ClientNameFields
+        control={control}
+        disabled={isSaving}
+      />
 
-      <ClientNationalIdField control={control} disabled={isSaving} />
+      <ClientNationalIdField
+        control={control}
+        disabled={isSaving}
+      />
 
       <ClientNationalIdTypeField
         control={control}
         disabled={isSaving}
-        options={INDIVIDUAL_NATIONAL_ID_TYPE_OPTIONS}
+        options={
+          INDIVIDUAL_NATIONAL_ID_TYPE_OPTIONS
+        }
       />
 
       {!isEdit && (
-        <ClientPasswordField control={control} disabled={isSaving} />
+        <ClientPasswordField
+          control={control}
+          disabled={isSaving}
+        />
       )}
 
       <Box>
-        <ControlledAutocomplete
+        <ControlledAutocomplete<
+          BeneficiaryFormValues,
+          ClientLookupResponse
+        >
           control={control}
           name="ParentClientId"
           label="جهة المستفيد"
           options={beneficiaryOptions}
-          loading={isLoadingBeneficiaryLookup}
+          loading={
+            isLoadingBeneficiaryLookup
+          }
           disabled={isSaving}
           placeholder="اختر جهة المستفيد"
-          getOptionLabel={(option: ClientLookupResponse) =>
-            option.name ?? ''
-          }
+          getOptionLabel={(
+            option,
+          ) => option.name ?? ''}
         />
-        {errors.ParentClientId?.message && (
+
+        {errors.ParentClientId
+          ?.message && (
           <Typography
             variant="caption"
             color="error"
-            sx={{ display: 'block', mt: 0.5, mx: '14px' }}
+            sx={{
+              display: 'block',
+              mt: 0.5,
+              mx: '14px',
+            }}
           >
-            {errors.ParentClientId.message}
+            {String(
+              errors.ParentClientId
+                .message,
+            )}
           </Typography>
         )}
       </Box>
 
       <SectionDivider />
 
-      <SectionTitle>بيانات التواصل</SectionTitle>
+      <SectionTitle>
+        بيانات التواصل
+      </SectionTitle>
 
-      <ClientPhoneField control={control} disabled={isSaving} />
+      <ClientPhoneField
+        control={control}
+        disabled={isSaving}
+      />
 
       <ClientCitySelectField
         control={control}
@@ -198,11 +327,12 @@ export default function BeneficiaryForm() {
         cities={HADHRAMAUT_CITIES}
       />
 
-      <ClientAddressField control={control} disabled={isSaving} />
+      <ClientAddressField
+        control={control}
+        disabled={isSaving}
+      />
 
       <SectionDivider />
     </ClientFormLayout>
   )
 }
-
-
