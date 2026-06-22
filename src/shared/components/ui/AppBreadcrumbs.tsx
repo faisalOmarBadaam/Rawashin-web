@@ -48,6 +48,8 @@ function getChildLabel(path: string) {
     if (path.startsWith('/beneficiaries')) return 'إضافة مستفيد'
     if (path.startsWith('/merchants')) return 'إضافة تاجر'
     if (path.startsWith('/partners')) return 'إضافة شريك'
+    if (path.startsWith('/requests')) return 'إنشاء طلب'
+    if (path.startsWith('/users')) return 'إضافة مستخدم'
   }
 
   if (path.startsWith('/beneficiaries/')) return 'تفاصيل المستفيد'
