@@ -17,10 +17,11 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import { useNavigate } from 'react-router';
-import MenuContent from '../ui/MenuContent';
-import SideMenuMobile from '../ui/SideMenuMobile';
-import MenuButton from '../ui/MenuButton';
+import MenuContent from './MenuContent';
+import SideMenuMobile from './SideMenuMobile';
+import MenuButton from './MenuButton';
 import { useLogout } from '@/features/auth/hooks';
+import { getSessionUser } from '@/features/auth/utils/session';
 
 const Toolbar = styled(MuiToolbar)({
   width: '100%',
@@ -47,6 +48,7 @@ export default function AppNavbar({ collapsed, onToggleCollapse }: AppNavbarProp
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
   const { mutate: logout, isPending: isLoggingOut } = useLogout();
+  const sessionUser = React.useMemo(() => getSessionUser(), []);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -131,9 +133,6 @@ export default function AppNavbar({ collapsed, onToggleCollapse }: AppNavbarProp
                 <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
                   رواشن
                 </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  لوحة تحكم الفندق
-                </Typography>
               </Stack>
             )}
           </Stack>
@@ -147,17 +146,17 @@ export default function AppNavbar({ collapsed, onToggleCollapse }: AppNavbarProp
         <Stack direction="row" sx={{ gap: 1, alignItems: 'center', px: collapsed ? 1.5 : 1, mb: 2 }}>
           <Avatar
             sizes="small"
-            alt="رايلي كارتر"
+            alt={sessionUser.name ?? 'المستخدم'}
             src="/static/images/avatar/7.jpg"
             sx={{ width: 40, height: 40  }}
           />
           {!collapsed && (
             <Stack sx={{ minWidth: 0 }}>
               <Typography variant="body2" sx={{ fontWeight: 600 }} noWrap>
-                رايلي كارتر
+                {sessionUser.name ?? '—'}
               </Typography>
               <Typography variant="caption" color="text.secondary" noWrap>
-                مدير الاستقبال
+                {sessionUser.role ?? '—'}
               </Typography>
             </Stack>
           )}

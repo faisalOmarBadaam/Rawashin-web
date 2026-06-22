@@ -14,9 +14,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 import GenericDataGrid, {
   type DataGridQueryState,
-} from '@/shared/components/ui/dataGrid/GenericDataGrid'
-import QueryFiltersBar from '@/shared/components/ui/filters/QueryFiltersBar'
-import QuerySelectFilter from '@/shared/components/ui/filters/QuerySelectFilter'
+} from '@/shared/components/dataGrid/GenericDataGrid'
+import QueryFiltersBar from '@/shared/components/filters/QueryFiltersBar'
+import QuerySelectFilter from '@/shared/components/filters/QuerySelectFilter'
 import RowActionsMenuButton, {
   type RowAction,
 } from '@/features/client/components/RowActionsMenuButton'

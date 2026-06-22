@@ -7,9 +7,9 @@ import Button from '@mui/material/Button'
 
 import GenericDataGrid, {
   type DataGridQueryState,
-} from '@/shared/components/ui/dataGrid/GenericDataGrid'
-import QueryFiltersBar from '@/shared/components/ui/filters/QueryFiltersBar'
-import QuerySelectFilter from '@/shared/components/ui/filters/QuerySelectFilter'
+} from '@/shared/components/dataGrid/GenericDataGrid'
+import QueryFiltersBar from '@/shared/components/filters/QueryFiltersBar'
+import QuerySelectFilter from '@/shared/components/filters/QuerySelectFilter'
 
 import { ClientType } from '@/shared/types/ClientType'
 import type { ClientListResponse } from '@/features/client/types/responses'

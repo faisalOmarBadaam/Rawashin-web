@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router'
-import DashboardLayout from '../components/layout/DashboardLayout'
+import DashboardLayout from '../layout/DashboardLayout'
 import { hasAccessToken } from '@/features/auth/utils/session'
 
 export default function ProtectedDashboardLayout() {

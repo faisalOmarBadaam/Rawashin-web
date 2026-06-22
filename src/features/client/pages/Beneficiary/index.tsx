@@ -8,9 +8,9 @@ import CardGiftcardIcon from '@mui/icons-material/CardGiftcard'
 
 import GenericDataGrid, {
   type DataGridQueryState,
-} from '@/shared/components/ui/dataGrid/GenericDataGrid'
-import QueryFiltersBar from '@/shared/components/ui/filters/QueryFiltersBar'
-import QuerySelectFilter from '@/shared/components/ui/filters/QuerySelectFilter'
+} from '@/shared/components/dataGrid/GenericDataGrid'
+import QueryFiltersBar from '@/shared/components/filters/QueryFiltersBar'
+import QuerySelectFilter from '@/shared/components/filters/QuerySelectFilter'
 
 import { ClientType } from '@/shared/types/ClientType'
 import { useAssignClientCard, useClients } from '../../hooks'

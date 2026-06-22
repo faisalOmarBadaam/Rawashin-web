@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router'
-import PageWrapper from '../components/layout/PageWrapper'
 import { hasAccessToken } from '@/features/auth/utils/session'
+import PageWrapper from '@/shared/components/ui/PageWrapper'
 
 export default function PublicLayout() {
   const token = hasAccessToken()

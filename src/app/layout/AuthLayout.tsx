@@ -1,5 +1,5 @@
+import PageWrapper from '@/shared/components/ui/PageWrapper'
 import { Outlet } from 'react-router'
-import PageWrapper from './PageWrapper'
 
 function AuthLayout() {
   return (

@@ -6,8 +6,8 @@ import NotFoundPage from '@/pages/NotFoundPage'
 import { appRoutes } from './routes.config'
 import type { AppRoute, AppRouteChild } from './routes.config'
 
-import PublicLayout from '@/shared/guards/PublicRoute'
-import ProtectedDashboardLayout from '@/shared/guards/ProtectedRoute'
+import PublicLayout from '@/app/guards/PublicRoute'
+import ProtectedDashboardLayout from '@/app/guards/ProtectedRoute'
 
 const mapChildrenToRouteObjects = (
   children?: AppRouteChild[]

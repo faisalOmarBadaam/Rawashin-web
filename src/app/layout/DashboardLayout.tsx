@@ -2,9 +2,8 @@ import { useState } from 'react'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import { Outlet } from 'react-router'
-import NavBar from '../ui/NavBar'
-import PageWrapper from './PageWrapper'
-import '../../../app/App.css'
+import NavBar from './components/NavBar'
+import PageWrapper from '@/shared/components/ui/PageWrapper'
 
 function DashboardLayout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
