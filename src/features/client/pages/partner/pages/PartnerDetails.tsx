@@ -337,13 +337,6 @@ export default function PartnerDetailsPage() {
                       المستفيدون التابعون
                     </Typography>
 
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{ mt: 0.5 }}
-                    >
-                      عرض مختصر للمستفيدين المرتبطين بهذا الشريك.
-                    </Typography>
                   </Box>
 
                   <TextField
@@ -385,7 +378,6 @@ export default function PartnerDetailsPage() {
             <ClientTransactionsTable
               clientId={details.id}
               title="معاملات الشريك"
-              description="عرض معاملات الشريك مع فلترة حسب نوع العملية والتاريخ."
             />
           </TabPanel>
 
