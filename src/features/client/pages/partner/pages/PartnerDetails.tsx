@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import type { ChangeEvent } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import dayjs from 'dayjs'
 
@@ -9,10 +10,13 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Chip from '@mui/material/Chip'
 import CircularProgress from '@mui/material/CircularProgress'
+import InputAdornment from '@mui/material/InputAdornment'
 import Paper from '@mui/material/Paper'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
+import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import type { GridColDef } from '@mui/x-data-grid'
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import BadgeIcon from '@mui/icons-material/Badge'
@@ -21,7 +25,12 @@ import GroupIcon from '@mui/icons-material/Group'
 import HistoryIcon from '@mui/icons-material/History'
 import PersonIcon from '@mui/icons-material/Person'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
+import SearchIcon from '@mui/icons-material/Search'
 
+import GenericDataGrid, {
+  type DataGridQueryState,
+} from '@/shared/components/dataGrid/GenericDataGrid'
+import { ClientType } from '@/shared/types/ClientType'
 
 import ClientCreditAccountSummary from '@/features/client/components/ClientCreditAccountSummary'
 import ClientTransactionsTable from '@/features/client/components/ClientTransactionsTable'
@@ -30,8 +39,9 @@ import {
   InfoSection,
   TabPanel,
 } from '@/features/client/components/ui'
-import { useClient } from '@/features/client/hooks'
+import { useClient, useClients } from '@/features/client/hooks'
 import PageDetailsHeader from '@/features/client/components/PageDetailsHeader'
+import type { ClientListResponse } from '@/features/client/types/responses'
 import { getAccountStatusInfo } from '@/features/client/utils/account-status'
 
 export default function PartnerDetailsPage() {
@@ -39,11 +49,98 @@ export default function PartnerDetailsPage() {
   const navigate = useNavigate()
 
   const [activeTab, setActiveTab] = useState(0)
+  const [beneficiariesQuery, setBeneficiariesQuery] = useState<DataGridQueryState>({
+    PageNumber: 1,
+    PageSize: 10,
+    SortBy: 'createdAt',
+    SortDir: 'desc',
+    Search: '',
+  })
 
   const partnerQuery = useClient(id)
   const details = partnerQuery.data
 
+  const beneficiariesParams = useMemo(
+    () => ({
+      PageNumber: beneficiariesQuery.PageNumber,
+      PageSize: beneficiariesQuery.PageSize,
+      SortBy: beneficiariesQuery.SortBy,
+      IsDesc: beneficiariesQuery.SortDir === 'desc',
+      Search: String(beneficiariesQuery.Search ?? ''),
+      ClientType: ClientType.Client,
+      ParentClientId: id,
+    }),
+    [beneficiariesQuery, id]
+  )
+
+  const partnerBeneficiariesQuery = useClients(beneficiariesParams)
+  const beneficiaryRows = partnerBeneficiariesQuery.data?.items ?? []
+  const beneficiariesTotalCount = partnerBeneficiariesQuery.data?.totalCount ?? 0
+
+  const beneficiariesColumns = useMemo<GridColDef<ClientListResponse>[]>(
+    () => [
+      {
+        field: 'fullName',
+        headerName: 'الاسم',
+        flex: 1.2,
+        minWidth: 220,
+      },
+      {
+        field: 'phoneNumber',
+        headerName: 'رقم الجوال',
+        flex: 0.8,
+        minWidth: 150,
+      },
+      {
+        field: 'accountStatus',
+        headerName: 'حالة الحساب',
+        flex: 0.7,
+        minWidth: 140,
+        sortable: false,
+        renderCell: (params) => {
+          const status = getAccountStatusInfo(params.row.accountStatus)
+
+          return (
+            <Chip
+              size="small"
+              label={status.label}
+              color={status.color}
+            />
+          )
+        },
+      },
+      {
+        field: 'isReceivedCard',
+        headerName: 'البطاقة',
+        flex: 0.6,
+        minWidth: 110,
+        sortable: false,
+        renderCell: (params) => (
+          <Chip
+            size="small"
+            label={params.row.isReceivedCard ? 'مستلمة' : 'غير مستلمة'}
+            color={params.row.isReceivedCard ? 'success' : 'default'}
+            variant={params.row.isReceivedCard ? 'filled' : 'outlined'}
+          />
+        ),
+      },
+    ],
+    []
+  )
+
   const accountStatus = getAccountStatusInfo(details?.accountStatus)
+
+  const handleBeneficiariesSearchChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    const search = event.target.value
+
+    setBeneficiariesQuery((prev) => ({
+      ...prev,
+      Search: search,
+      PageNumber: 1,
+    }))
+  }
 
   const errorMessage =
     partnerQuery.error instanceof Error
@@ -220,24 +317,66 @@ export default function PartnerDetailsPage() {
               }}
             >
               <CardContent>
-                <Typography
-                  variant="subtitle1"
+                <Box
                   sx={{
-                    fontWeight: 800,
+                    display: 'flex',
+                    gap: 2,
+                    mb: 2,
+                    alignItems: { xs: 'stretch', md: 'center' },
+                    flexDirection: { xs: 'column', md: 'row' },
+                    justifyContent: 'space-between',
                   }}
                 >
-                  التابعون
-                </Typography>
+                  <Box>
+                    <Typography
+                      variant="subtitle1"
+                      sx={{
+                        fontWeight: 800,
+                      }}
+                    >
+                      المستفيدون التابعون
+                    </Typography>
 
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{
-                    mt: 1,
-                  }}
-                >
-                  لا توجد بيانات متاحة حاليًا للتابعين.
-                </Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ mt: 0.5 }}
+                    >
+                      عرض مختصر للمستفيدين المرتبطين بهذا الشريك.
+                    </Typography>
+                  </Box>
+
+                  <TextField
+                    value={String(beneficiariesQuery.Search ?? '')}
+                    onChange={handleBeneficiariesSearchChange}
+                    size="small"
+                    placeholder="ابحث بالاسم أو رقم الجوال"
+                    sx={{ minWidth: { xs: '100%', md: 320 } }}
+                    slotProps={{
+                      input: {
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <SearchIcon fontSize="small" />
+                          </InputAdornment>
+                        ),
+                      },
+                    }}
+                  />
+                </Box>
+
+                <GenericDataGrid<ClientListResponse>
+                  rows={beneficiaryRows}
+                  columns={beneficiariesColumns}
+                  loading={partnerBeneficiariesQuery.isLoading}
+                  totalCount={beneficiariesTotalCount}
+                  query={beneficiariesQuery}
+                  setQuery={setBeneficiariesQuery}
+                  getRowId={(row) => row.id}
+                  showToolbar={false}
+                  checkboxSelection={false}
+                  defaultDescFields={['createdAt']}
+                  onRowDoubleClick={(row) => navigate(`/beneficiaries/${String(row.id)}`)}
+                />
               </CardContent>
             </Card>
           </TabPanel>
@@ -250,7 +389,7 @@ export default function PartnerDetailsPage() {
             />
           </TabPanel>
 
-          <TabPanel value={activeTab} index={5}>
+          <TabPanel value={activeTab} index={3}>
             <Card
               variant="outlined"
               sx={{
