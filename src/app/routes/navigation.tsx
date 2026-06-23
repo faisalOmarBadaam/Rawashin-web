@@ -4,7 +4,6 @@ import GroupIcon from '@mui/icons-material/Group'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale'
 import HandshakeIcon from '@mui/icons-material/Handshake'
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import SupportAgentIcon from '@mui/icons-material/SupportAgent'
 import PeopleIcon from '@mui/icons-material/People'
@@ -47,12 +46,6 @@ export const mainListItems: SidebarItem[] = [
         icon: <HandshakeIcon />,
         end: true
       },
-      {
-        text: 'الطلبات',
-        path: '/requests',
-        icon: <ReceiptLongIcon />,
-        end: true
-      }
     ]
   },
   {

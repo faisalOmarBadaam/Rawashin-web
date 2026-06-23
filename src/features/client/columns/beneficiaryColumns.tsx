@@ -1,14 +1,12 @@
 import { useMemo } from 'react'
 import type { GridColDef } from '@mui/x-data-grid'
 
-import Switch from '@mui/material/Switch'
-import Typography from '@mui/material/Typography'
-
 import type { AccountStatus } from '../types'
 import type { ClientListResponse } from '../types/responses'
 
 
 import type { RowAction } from '../components/RowActionsMenuButton'
+import CardReceiptStatusSwitch from '../components/CardReceiptStatusSwitch'
 import { createClientAccountStatusColumn, createClientActionsColumn } from './commonColumns'
 
 type BeneficiaryColumnsOptions = {
@@ -45,14 +43,13 @@ export function useBeneficiaryColumns({
         field: 'isReceivedCard',
         headerName: 'حالة البطاقة',
         width: 160,
+        sortable: false,
+        filterable: false,
         renderCell: (params) => (
-          <Typography component="span">
-            <Switch
-              checked={Boolean(params.row.isReceivedCard)}
-              color="success"
-              onClick={(event) => event.stopPropagation()}
-            />
-          </Typography>
+          <CardReceiptStatusSwitch
+            id={String(params.row.id)}
+            value={Boolean(params.row.isReceivedCard)}
+          />
         ),
       },
       createClientActionsColumn<ClientListResponse>({

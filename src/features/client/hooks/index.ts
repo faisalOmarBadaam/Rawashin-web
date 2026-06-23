@@ -9,7 +9,7 @@ import type {
   ClientTransactionResponse,
   MerchantSubResponse,
 } from '../types/responses'
-import { createClient, getClientCreditAccountDebtAmount, getClientCreditAccountTotalAmount, getClientDetails, getClientTransactions, getClients, getClientsLookup, getMerchantSubs, deleteMerchantSub, settleMerchantSub, updateClient, deleteClient, UpdateClientAccountStatus, ResetClientPassword, AssignClientCard } from '../api'
+import { createClient, getClientCreditAccountDebtAmount, getClientCreditAccountTotalAmount, getClientDetails, getClientTransactions, getClients, getClientsLookup, getMerchantSubs, deleteMerchantSub, settleMerchantSub, updateClient, deleteClient, UpdateClientAccountStatus, UpdateClientReceiptStatus, ResetClientPassword, AssignClientCard } from '../api'
 import type { AccountStatus } from '../types'
 
 export function useClients(params?: BeneficiaryListParams) {
@@ -157,6 +157,27 @@ export function useUpdateClientAccountStatus() {
       await UpdateClientAccountStatus(id, 
        accountStatus
       )
+    },
+
+    onSuccess: async (_data, variables) => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['client', variables.id] }),
+        queryClient.invalidateQueries({ queryKey: ['clients'] }),
+      ])
+    },
+  })
+}
+
+export function useUpdateClientReceiptStatus() {
+  const queryClient = useQueryClient()
+
+  return useMutation<
+    void,
+    Error,
+    { id: string; isReceivedCard: boolean }
+  >({
+    mutationFn: async ({ id, isReceivedCard }) => {
+      await UpdateClientReceiptStatus(id, isReceivedCard)
     },
 
     onSuccess: async (_data, variables) => {

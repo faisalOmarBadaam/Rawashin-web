@@ -19,6 +19,8 @@ const ClientEndpoints = {
     `merchants/${merchantId}/sub-merchants/${subMerchantId}/settlements`,
   clientTransactions: (clientId: string) => `clients/${clientId}/transactions`,
   updateClientAccountStatus: (id: string) => `clients/${id}/status`,
+  updateClientReceiptStatus: (id: string) =>
+    `customers/${id}/credit-account/receipt-status`,
   resetClientPassword: `auths/admin-reset-password`,
   assignClientCard:(id:string)=>`customers/${id}/card`
 } as const
@@ -130,6 +132,10 @@ export function deleteClient(id: string) {
 
 export function UpdateClientAccountStatus(id: string , payload:number) {
   return http.patch(ClientEndpoints.updateClientAccountStatus(id),  payload)
+}
+
+export function UpdateClientReceiptStatus(id: string, payload: boolean) {
+  return http.patch(ClientEndpoints.updateClientReceiptStatus(id), payload)
 }
 
 export function ResetClientPassword(id: string , payload:{"newPassword":string}) {

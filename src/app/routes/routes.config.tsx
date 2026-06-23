@@ -8,7 +8,6 @@ import StatisticsDashboard from '@/features/statistics/pages/StatisticsDashboard
 import SupportPage from '@/features/support/pages'
 import SettlementsPage from '@/features/settlements/pages'
 import SettlementDetailsPage from '@/features/settlements/pages/SettlementDetails'
-import RequestsPage from '@/pages/RequestsPage'
 
 import BeneficiaryPage from '@/features/client/pages/Beneficiary'
 import BeneficiaryDetailsPage from '@/features/client/pages/Beneficiary/BeneficiaryDetails'
@@ -148,11 +147,6 @@ export const appRoutes: AppRoute[] = [
         element: <SettlementDetailsPage />
       }
     ]
-  },
-  {
-    path: '/requests',
-    element: <RequestsPage />,
-    access: 'private'
   },
   {
     path: '/support',
