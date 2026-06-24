@@ -1,0 +1,57 @@
+name: Deploy React Dev
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get project
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install and build
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "${{ secrets.SERVER_HOST_DEV }}" >> ~/.ssh/known_hosts
+
+      - name: Clear old files
+        run: |
+          ssh -i ~/.ssh/deploy_key \
+            ${{ secrets.SERVER_USER_DEV }}@${{ secrets.SERVER_HOST_DEV }} \
+            "mkdir -p /var/www/react-dev && rm -rf /var/www/react-dev/*"
+
+      - name: Upload website
+        run: |
+          scp -i ~/.ssh/deploy_key -r \
+            dist/. \
+            ${{ secrets.SERVER_USER_DEV }}@${{ secrets.SERVER_HOST_DEV }}:/var/www/react-dev/
+
+      - name: Fix permissions
+        run: |
+          ssh -i ~/.ssh/deploy_key \
+            ${{ secrets.SERVER_USER_DEV }}@${{ secrets.SERVER_HOST_DEV }} \
+            "find /var/www/react-dev -type d -exec chmod 755 {} \; &&
+             find /var/www/react-dev -type f -exec chmod 644 {} \; &&
+             chown -R www-data:www-data /var/www/react-dev"
