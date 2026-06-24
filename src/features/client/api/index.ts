@@ -3,6 +3,7 @@ import type { PaginatedResponse } from '@/shared/types/BaseResponse'
 import type { AddClientRequest, BeneficiaryListParams, ClientTransactionsParams } from '../types/params'
 import type { ClientType } from '@/shared/types/ClientType'
 import type { ClientListResponse, ClientLookupResponse, ClientTransactionResponse, MerchantSubResponse } from '../types/responses'
+import type { ClientAttachment } from '../types'
 
 const ClientEndpoints = {
   list: 'clients',
@@ -22,7 +23,10 @@ const ClientEndpoints = {
   updateClientReceiptStatus: (id: string) =>
     `customers/${id}/credit-account/receipt-status`,
   resetClientPassword: `auths/admin-reset-password`,
-  assignClientCard:(id:string)=>`customers/${id}/card`
+  assignClientCard:(id:string)=>`customers/${id}/card`,
+  clientAttachments: (id: string) => `attachments/clients/${id}`,
+  attachmentById: (attachmentId: string) => `attachments/${attachmentId}`,
+  attachmentTemporaryUrl: (attachmentId: string) => `attachments/${attachmentId}/temporary-url`,
 } as const
 
 
@@ -156,6 +160,43 @@ export async function getClientTransactions(
   const response = await http.get<PaginatedResponse<ClientTransactionResponse>>(
     ClientEndpoints.clientTransactions(clientId),
     { params }
+  )
+
+  return response.data
+}
+
+export async function getClientAttachments(id: string): Promise<PaginatedResponse<ClientAttachment>> {
+  const response = await http.get<PaginatedResponse<ClientAttachment>>(
+    ClientEndpoints.clientAttachments(id)
+  )
+
+  return response.data
+}
+
+export async function uploadClientAttachment(
+  clientId: string,
+  files: File[],
+): Promise<void> {
+  const formData = new FormData()
+  files.forEach(file => formData.append('files', file))
+
+  await http.post(
+    ClientEndpoints.clientAttachments(clientId),
+    formData,
+  )
+}
+
+export async function deleteClientAttachment(
+  attachmentId: string,
+): Promise<void> {
+  await http.delete(
+    ClientEndpoints.attachmentById(attachmentId),
+  )
+}
+
+export async function getAttachmentTemporaryUrl(attachmentId: string): Promise<{url: string}> {
+  const response = await http.get<{url: string}>(
+    ClientEndpoints.attachmentTemporaryUrl(attachmentId)
   )
 
   return response.data

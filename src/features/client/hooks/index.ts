@@ -9,8 +9,8 @@ import type {
   ClientTransactionResponse,
   MerchantSubResponse,
 } from '../types/responses'
-import { createClient, getClientCreditAccountDebtAmount, getClientCreditAccountTotalAmount, getClientDetails, getClientTransactions, getClients, getClientsLookup, getMerchantSubs, deleteMerchantSub, settleMerchantSub, updateClient, deleteClient, UpdateClientAccountStatus, UpdateClientReceiptStatus, ResetClientPassword, AssignClientCard } from '../api'
-import type { AccountStatus } from '../types'
+import { createClient, getClientCreditAccountDebtAmount, getClientCreditAccountTotalAmount, getClientDetails, getClientTransactions, getClients, getClientsLookup, getMerchantSubs, deleteMerchantSub, settleMerchantSub, updateClient, deleteClient, UpdateClientAccountStatus, UpdateClientReceiptStatus, ResetClientPassword, AssignClientCard, getClientAttachments, getAttachmentTemporaryUrl, uploadClientAttachment, deleteClientAttachment } from '../api'
+import type { AccountStatus, ClientAttachment } from '../types'
 
 export function useClients(params?: BeneficiaryListParams) {
   return useQuery<PaginatedResponse<ClientListResponse>, Error>({
@@ -227,6 +227,61 @@ export function useAssignClientCard() {
         queryClient.invalidateQueries({ queryKey: ['client', variables.id] }),
         queryClient.invalidateQueries({ queryKey: ['clients'] }),
       ])
+    },
+  })
+}
+export function useGetClientAttachments(id: string) {
+
+  return useQuery<PaginatedResponse<ClientAttachment>, Error>({
+    queryKey: ['clientAttachments', id],
+    queryFn: async () => {
+      const response = await getClientAttachments(id)
+      return response
+    },
+    placeholderData: keepPreviousData
+  })
+}
+
+export function useAttachmentTemporaryUrl(attachmentId: string) {
+  return useQuery<{ url: string }, Error>({
+    queryKey: ['attachmentTemporaryUrl', attachmentId],
+    queryFn: async () => {
+      const response = await getAttachmentTemporaryUrl(attachmentId)
+      return response
+    },
+  })
+}
+
+export function useUploadClientAttachment() {
+  const queryClient = useQueryClient()
+
+  return useMutation<void, Error, { clientId: string; files: File[] }>({
+    mutationFn: async ({ clientId, files }) => {
+      await uploadClientAttachment(clientId, files)
+    },
+    onSuccess: async (_data, variables) => {
+      await queryClient.invalidateQueries({
+        queryKey: ['clientAttachments', variables.clientId],
+      })
+    },
+  })
+}
+
+export function useDeleteClientAttachment() {
+  const queryClient = useQueryClient()
+
+  return useMutation<
+    void,
+    Error,
+    { clientId: string; attachmentId: string }
+  >({
+    mutationFn: async ({ attachmentId }) => {
+      await deleteClientAttachment(attachmentId)
+    },
+    onSuccess: async (_data, variables) => {
+      await queryClient.invalidateQueries({
+        queryKey: ['clientAttachments', variables.clientId],
+      })
     },
   })
 }

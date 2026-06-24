@@ -15,14 +15,7 @@ import DashboardHeader from '../components/DashboardHeader'
 import { useTransactionsCount, useTransactionsTotalSum } from '../hooks'
 import type { DistributionPoint } from '../components/DistributionDonutChart'
 
-function toNumber(val: unknown): number {
-  const n = Number(val);
-  return isNaN(n) ? 0 : n;
-}
 
-function normalizeTotalBalances(val: unknown): number {
-  return toNumber(val);
-}
 
 function buildBalanceTrend(baseBalance: number, days: number = 14) {
   const points = [];
@@ -68,22 +61,17 @@ export default function StatisticsDashboard() {
   const theme = useTheme()
   const [clientType, setClientType] = useState<ClientType>(ClientType.Client)
 
-  // Fetch count hook
   const transactionsCountQuery = useTransactionsCount(clientType)
-  // Fetch total sum hook
   const transactionsTotalSumQuery = useTransactionsTotalSum(clientType)
 
   const count = transactionsCountQuery.data ?? 0
-  const normalizedSum = normalizeTotalBalances(transactionsTotalSumQuery.data?? 0)
 
-  // Calculate balances format used by KpiSection
   const balances = {
-    balanceAvailable: normalizedSum,
-    incomingBalance: Math.round(normalizedSum * 0.6), // Mock standard ratios based on aggregate
-    outgoingBalance: Math.round(normalizedSum * 0.4),
+    balanceAvailable: transactionsTotalSumQuery.data?.balanceAvailable ?? 0,
+    incomingBalance: transactionsTotalSumQuery.data?.incomingBalance ?? 0,
+    outgoingBalance: transactionsTotalSumQuery.data?.outgoingBalance ?? 0,
   }
 
-  // Calculate loading & error states
   const loading = transactionsCountQuery.isLoading || transactionsTotalSumQuery.isLoading
   const hasError = transactionsCountQuery.isError || transactionsTotalSumQuery.isError
   const error = hasError ? 'حدث خطأ أثناء تحميل البيانات من الخادم.' : null
@@ -93,8 +81,8 @@ export default function StatisticsDashboard() {
   const trendPercent = computeTrendPercent(count, prevCount)
   const trends = {
     transactions: trendPercent || 12,
-    incoming: 8,
-    outgoing: -5,
+    incoming: computeTrendPercent(balances.incomingBalance, balances.balanceAvailable),
+    outgoing: computeTrendPercent(balances.outgoingBalance, balances.balanceAvailable),
   }
 
   const isEmpty = count === 0 && balances.balanceAvailable === 0 && balances.incomingBalance === 0 && balances.outgoingBalance === 0

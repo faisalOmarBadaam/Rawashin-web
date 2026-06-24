@@ -146,7 +146,7 @@ export default function BeneficiaryPage() {
         getRowId={(row) => row.id}
         checkboxSelection
         selectionModel={selectionModel}
-        onSelectionModelChange={setSelectionModel}
+        onSelectionModelChange={(newSelection) => setSelectionModel(newSelection)}
         onRowDoubleClick={(row) => navigate(String(row.id))}
         defaultDescFields={['createdAt']}
       />

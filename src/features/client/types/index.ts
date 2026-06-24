@@ -25,3 +25,11 @@ export const BUSINESS_NATIONAL_ID_TYPE_OPTIONS: readonly NationalIdTypeOption[] 
   ...INDIVIDUAL_NATIONAL_ID_TYPE_OPTIONS,
   { value: 2, label: 'سجل تجاري' },
 ]
+export interface ClientAttachment {
+  id: string
+  clientId: string
+  originalFileName: string
+  storedFileName: string
+  contentType: string | null
+  createdAt: string
+}

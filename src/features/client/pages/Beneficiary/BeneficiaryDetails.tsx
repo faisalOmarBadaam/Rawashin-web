@@ -16,17 +16,23 @@ import Typography from '@mui/material/Typography'
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import BadgeIcon from '@mui/icons-material/Badge'
+import DescriptionIcon from '@mui/icons-material/Description'
 import EditIcon from '@mui/icons-material/Edit'
 import HistoryIcon from '@mui/icons-material/History'
 import PersonIcon from '@mui/icons-material/Person'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 
-
 import ClientCreditAccountSummary from '../../components/ClientCreditAccountSummary'
+import ClientDocuments from '../../components/ClientDocuments'
 import ClientTransactionsTable from '../../components/ClientTransactionsTable'
-import { DetailItem, InfoSection, TabPanel } from '../../components/ui'
-import { useClient } from '../../hooks'
 import PageDetailsHeader from '../../components/PageDetailsHeader'
+import {
+  DetailItem,
+  InfoSection,
+  TabPanel,
+} from '../../components/ui'
+
+import { useClient } from '../../hooks'
 import { getAccountStatusInfo } from '../../utils/account-status'
 
 export default function BeneficiaryDetails() {
@@ -38,7 +44,9 @@ export default function BeneficiaryDetails() {
   const beneficiaryQuery = useClient(id)
   const details = beneficiaryQuery.data
 
-  const accountStatus = getAccountStatusInfo(details?.accountStatus)
+  const accountStatus = getAccountStatusInfo(
+    details?.accountStatus,
+  )
 
   const errorMessage =
     beneficiaryQuery.error instanceof Error
@@ -46,7 +54,11 @@ export default function BeneficiaryDetails() {
       : 'حدث خطأ أثناء جلب بيانات المستفيد'
 
   if (!id) {
-    return <Alert severity="error">معرف المستفيد غير موجود</Alert>
+    return (
+      <Alert severity="error">
+        معرف المستفيد غير موجود
+      </Alert>
+    )
   }
 
   if (beneficiaryQuery.isLoading) {
@@ -65,7 +77,11 @@ export default function BeneficiaryDetails() {
   }
 
   if (beneficiaryQuery.isError) {
-    return <Alert severity="error">{errorMessage}</Alert>
+    return (
+      <Alert severity="error">
+        {errorMessage}
+      </Alert>
+    )
   }
 
   if (!details) {
@@ -77,7 +93,9 @@ export default function BeneficiaryDetails() {
   }
 
   const createdAt = details.createdAt
-    ? dayjs(details.createdAt).format('YYYY/MM/DD HH:mm')
+    ? dayjs(details.createdAt).format(
+        'YYYY/MM/DD HH:mm',
+      )
     : '—'
 
   return (
@@ -109,7 +127,8 @@ export default function BeneficiaryDetails() {
             >
               تعديل
             </Button>
-             <Button
+
+            <Button
               variant="outlined"
               startIcon={<ArrowBackIcon />}
               onClick={() => navigate(-1)}
@@ -120,7 +139,9 @@ export default function BeneficiaryDetails() {
         }
       />
 
-      <ClientCreditAccountSummary clientId={details.id} />
+      <ClientCreditAccountSummary
+        clientId={details.id}
+      />
 
       <Paper
         elevation={0}
@@ -134,7 +155,9 @@ export default function BeneficiaryDetails() {
       >
         <Tabs
           value={activeTab}
-          onChange={(_, value: number) => setActiveTab(value)}
+          onChange={(_, value: number) =>
+            setActiveTab(value)
+          }
           variant="scrollable"
           scrollButtons="auto"
           allowScrollButtonsMobile
@@ -157,6 +180,12 @@ export default function BeneficiaryDetails() {
           />
 
           <Tab
+            icon={<DescriptionIcon />}
+            iconPosition="start"
+            label="المستندات"
+          />
+
+          <Tab
             icon={<HistoryIcon />}
             iconPosition="start"
             label="السجل"
@@ -164,7 +193,10 @@ export default function BeneficiaryDetails() {
         </Tabs>
 
         <Box sx={{ p: 2 }}>
-          <TabPanel value={activeTab} index={0}>
+          <TabPanel
+            value={activeTab}
+            index={0}
+          >
             <InfoSection
               title="البيانات الأساسية"
               description="معلومات التعريف الرئيسية الخاصة بالمستفيد."
@@ -174,7 +206,6 @@ export default function BeneficiaryDetails() {
                 value={details.fullName}
               />
 
-
               <DetailItem
                 label="الهوية الوطنية"
                 value={details.nationalId}
@@ -182,8 +213,11 @@ export default function BeneficiaryDetails() {
 
               <DetailItem
                 label="نوع الهوية"
-                value={details.nationalIdTypeName}
+                value={
+                  details.nationalIdTypeName
+                }
               />
+
               <DetailItem
                 label="رقم الهاتف"
                 value={details.phoneNumber}
@@ -198,6 +232,7 @@ export default function BeneficiaryDetails() {
                 label="العنوان"
                 value={details.address}
               />
+
               <DetailItem
                 label="الجهة"
                 value={details.parentClientName}
@@ -205,12 +240,19 @@ export default function BeneficiaryDetails() {
 
               <DetailItem
                 label="استلم البطاقة"
-                value={details.isReceivedCard ? 'نعم' : 'لا'}
+                value={
+                  details.isReceivedCard
+                    ? 'نعم'
+                    : 'لا'
+                }
               />
             </InfoSection>
           </TabPanel>
 
-          <TabPanel value={activeTab} index={1}>
+          <TabPanel
+            value={activeTab}
+            index={1}
+          >
             <ClientTransactionsTable
               clientId={details.id}
               title="معاملات المستفيد"
@@ -218,7 +260,19 @@ export default function BeneficiaryDetails() {
             />
           </TabPanel>
 
-          <TabPanel value={activeTab} index={2}>
+          <TabPanel
+            value={activeTab}
+            index={2}
+          >
+            <ClientDocuments
+              clientId={details.id}
+            />
+          </TabPanel>
+
+          <TabPanel
+            value={activeTab}
+            index={3}
+          >
             <Card
               variant="outlined"
               sx={{
@@ -242,7 +296,8 @@ export default function BeneficiaryDetails() {
                     mt: 1,
                   }}
                 >
-                  لا توجد بيانات سجل متاحة حاليًا لهذا المستفيد.
+                  لا توجد بيانات سجل متاحة حاليًا
+                  لهذا المستفيد.
                 </Typography>
               </CardContent>
             </Card>
